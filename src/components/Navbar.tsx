@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
-  MapPin,
   Menu,
   MessageCircle,
-  Phone,
+  Search,
   ShoppingCart,
+  UserRound,
   X,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
@@ -16,9 +16,10 @@ const menu = [
   { name: "Home", id: "home" },
   { name: "Collections", id: "collections" },
   { name: "Gold Rates", id: "rates" },
-  { name: "About", id: "about" },
+  { name: "About Us", id: "about" },
   { name: "Services", id: "services" },
-  { name: "Contact", id: "contact" },
+  { name: "Gallery", id: "gallery" },
+  { name: "Contact Us", id: "contact" },
 ];
 
 function Navbar() {
@@ -27,6 +28,7 @@ function Navbar() {
 
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,10 +48,12 @@ function Navbar() {
 
   useEffect(() => {
     setOpen(false);
+    setSearchOpen(false);
   }, [location.pathname]);
 
   const handleNavigation = (id: string) => {
     setOpen(false);
+    setSearchOpen(false);
 
     if (location.pathname === "/") {
       window.setTimeout(() => {
@@ -57,7 +61,7 @@ function Navbar() {
           behavior: "smooth",
           block: "start",
         });
-      }, 50);
+      }, 80);
     }
   };
 
@@ -67,17 +71,30 @@ function Navbar() {
       <div
         className={`
           border-b
-          border-[#D4AF37]/15
+          border-[#D4AF37]/35
           transition-all
           duration-300
           ${
             scrolled
-              ? "bg-black/95 shadow-[0_10px_35px_rgba(0,0,0,0.35)] backdrop-blur-xl"
-              : "bg-black/80 backdrop-blur-md"
+              ? "bg-black/95 shadow-[0_14px_45px_rgba(0,0,0,0.55)] backdrop-blur-xl"
+              : "bg-black/90 backdrop-blur-lg"
           }
         `}
       >
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
+        <div
+          className="
+            mx-auto
+            flex
+            min-h-[92px]
+            max-w-[1520px]
+            items-center
+            justify-between
+            gap-5
+            px-4
+            sm:px-6
+            lg:px-8
+          "
+        >
           {/* Logo */}
           <Link
             to="/"
@@ -85,6 +102,8 @@ function Navbar() {
             className="shrink-0"
             onClick={() => {
               setOpen(false);
+              setSearchOpen(false);
+
               window.scrollTo({
                 top: 0,
                 behavior: "smooth",
@@ -92,27 +111,38 @@ function Navbar() {
             }}
           >
             <img
-              src="/images/logo.webp"
-              alt="Citizen Jewellers"
-              width="96"
-              height="120"
+              src="/images/logo.png?v=4"
+              alt="Citizen Jewellers by Lakhani Sons"
+              width={330}
+              height={110}
               loading="eager"
               decoding="async"
               className="
-                h-14
+                h-[72px]
                 w-auto
+                max-w-[245px]
                 object-contain
                 transition-transform
-                duration-300
-                hover:scale-[1.03]
-                sm:h-16
+                duration-500
+                hover:scale-[1.025]
+                sm:h-[78px]
+                sm:max-w-[285px]
+                xl:max-w-[320px]
               "
             />
           </Link>
 
           {/* Desktop Navigation */}
           <nav
-            className="hidden items-center gap-7 lg:flex"
+            className="
+              hidden
+              flex-1
+              items-center
+              justify-center
+              gap-5
+              xl:flex
+              2xl:gap-7
+            "
             aria-label="Main navigation"
           >
             {menu.map((item) => (
@@ -123,11 +153,13 @@ function Navbar() {
                 className="
                   group
                   relative
-                  py-2
-                  text-sm
+                  whitespace-nowrap
+                  py-8
+                  text-[13px]
                   font-medium
-                  tracking-wide
-                  text-white/70
+                  uppercase
+                  tracking-[0.08em]
+                  text-white/80
                   transition
                   duration-300
                   hover:text-[#D4AF37]
@@ -139,7 +171,7 @@ function Navbar() {
                   className="
                     absolute
                     inset-x-0
-                    -bottom-0.5
+                    bottom-5
                     h-px
                     origin-left
                     scale-x-0
@@ -153,8 +185,55 @@ function Navbar() {
             ))}
           </nav>
 
-          {/* Actions */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          {/* Right Actions */}
+          <div className="flex shrink-0 items-center gap-1 sm:gap-2">
+            {/* Search */}
+            <button
+              type="button"
+              onClick={() => setSearchOpen((value) => !value)}
+              className="
+                hidden
+                h-11
+                w-11
+                items-center
+                justify-center
+                rounded-full
+                text-[#D4AF37]
+                transition
+                duration-300
+                hover:bg-[#D4AF37]/10
+                hover:text-[#f1cf64]
+                md:flex
+              "
+              aria-label="Search jewellery"
+              aria-expanded={searchOpen}
+            >
+              <Search size={21} aria-hidden="true" />
+            </button>
+
+            {/* Account */}
+            <Link
+              to="/account"
+              className="
+                hidden
+                h-11
+                w-11
+                items-center
+                justify-center
+                rounded-full
+                text-white/85
+                transition
+                duration-300
+                hover:bg-[#D4AF37]/10
+                hover:text-[#D4AF37]
+                md:flex
+              "
+              aria-label="Customer account"
+            >
+              <UserRound size={21} aria-hidden="true" />
+            </Link>
+
+            {/* Cart */}
             <Link
               to="/cart"
               className="
@@ -164,27 +243,22 @@ function Navbar() {
                 w-11
                 place-items-center
                 rounded-full
-                border
-                border-[#D4AF37]/40
-                bg-black/25
                 text-[#D4AF37]
                 transition
                 duration-300
-                hover:-translate-y-0.5
-                hover:border-[#D4AF37]
-                hover:bg-[#D4AF37]
-                hover:text-black
+                hover:bg-[#D4AF37]/10
+                hover:text-[#f1cf64]
               "
               aria-label={`Cart with ${totalItems} items`}
             >
-              <ShoppingCart size={18} aria-hidden="true" />
+              <ShoppingCart size={22} aria-hidden="true" />
 
               {totalItems > 0 && (
                 <span
                   className="
                     absolute
-                    -right-1
-                    -top-1
+                    -right-0.5
+                    top-0
                     grid
                     min-h-5
                     min-w-5
@@ -195,6 +269,8 @@ function Navbar() {
                     text-[10px]
                     font-bold
                     text-black
+                    ring-2
+                    ring-black
                   "
                 >
                   {totalItems > 99 ? "99+" : totalItems}
@@ -202,6 +278,7 @@ function Navbar() {
               )}
             </Link>
 
+            {/* WhatsApp */}
             <a
               href="https://wa.me/923352484936"
               target="_blank"
@@ -212,24 +289,29 @@ function Navbar() {
                 items-center
                 justify-center
                 gap-2
-                rounded-full
-                bg-[#D4AF37]
+                rounded-md
+                border
+                border-[#D4AF37]/65
+                bg-black/25
                 px-5
-                text-sm
+                text-xs
                 font-semibold
-                text-black
-                shadow-[0_10px_30px_rgba(212,175,55,0.18)]
+                uppercase
+                tracking-[0.08em]
+                text-[#D4AF37]
                 transition
                 duration-300
                 hover:-translate-y-0.5
-                hover:bg-[#e2c15b]
-                md:inline-flex
+                hover:bg-[#D4AF37]
+                hover:text-black
+                lg:inline-flex
               "
             >
               <MessageCircle size={17} aria-hidden="true" />
-              WhatsApp
+              WhatsApp Us
             </a>
 
+            {/* Mobile Menu */}
             <button
               type="button"
               onClick={() => setOpen((value) => !value)}
@@ -241,8 +323,8 @@ function Navbar() {
                 rounded-full
                 text-[#D4AF37]
                 transition
-                hover:bg-white/5
-                lg:hidden
+                hover:bg-[#D4AF37]/10
+                xl:hidden
               "
               aria-label={open ? "Close menu" : "Open menu"}
               aria-expanded={open}
@@ -251,6 +333,83 @@ function Navbar() {
             </button>
           </div>
         </div>
+
+        {/* Search Bar */}
+        <AnimatePresence initial={false}>
+          {searchOpen && (
+            <motion.div
+              initial={{
+                opacity: 0,
+                height: 0,
+              }}
+              animate={{
+                opacity: 1,
+                height: "auto",
+              }}
+              exit={{
+                opacity: 0,
+                height: 0,
+              }}
+              transition={{
+                duration: 0.25,
+                ease: "easeOut",
+              }}
+              className="
+                hidden
+                overflow-hidden
+                border-t
+                border-[#D4AF37]/15
+                bg-[#050505]
+                md:block
+              "
+            >
+              <div className="mx-auto max-w-4xl px-6 py-4">
+                <div
+                  className="
+                    flex
+                    items-center
+                    gap-3
+                    rounded-full
+                    border
+                    border-[#D4AF37]/35
+                    bg-black
+                    px-5
+                  "
+                >
+                  <Search
+                    size={19}
+                    className="shrink-0 text-[#D4AF37]"
+                    aria-hidden="true"
+                  />
+
+                  <input
+                    type="search"
+                    placeholder="Search necklaces, rings, bangles, gold biscuits..."
+                    className="
+                      min-h-12
+                      w-full
+                      bg-transparent
+                      text-sm
+                      text-white
+                      outline-none
+                      placeholder:text-white/35
+                    "
+                    autoFocus
+                  />
+
+                  <button
+                    type="button"
+                    onClick={() => setSearchOpen(false)}
+                    className="text-white/45 transition hover:text-[#D4AF37]"
+                    aria-label="Close search"
+                  >
+                    <X size={18} />
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Mobile Navigation */}
@@ -270,22 +429,58 @@ function Navbar() {
               height: 0,
             }}
             transition={{
-              duration: 0.25,
+              duration: 0.28,
               ease: "easeOut",
             }}
             className="
               overflow-hidden
               border-b
-              border-[#D4AF37]/15
+              border-[#D4AF37]/25
               bg-black/98
+              shadow-[0_20px_50px_rgba(0,0,0,0.55)]
               backdrop-blur-xl
-              lg:hidden
+              xl:hidden
             "
           >
             <nav
-              className="mx-auto flex max-w-7xl flex-col px-6 py-5"
+              className="mx-auto flex max-w-7xl flex-col px-5 py-5 sm:px-7"
               aria-label="Mobile navigation"
             >
+              {/* Mobile Search */}
+              <div
+                className="
+                  mb-4
+                  flex
+                  items-center
+                  gap-3
+                  rounded-full
+                  border
+                  border-[#D4AF37]/30
+                  bg-[#080808]
+                  px-4
+                "
+              >
+                <Search
+                  size={18}
+                  className="text-[#D4AF37]"
+                  aria-hidden="true"
+                />
+
+                <input
+                  type="search"
+                  placeholder="Search jewellery..."
+                  className="
+                    min-h-12
+                    w-full
+                    bg-transparent
+                    text-sm
+                    text-white
+                    outline-none
+                    placeholder:text-white/35
+                  "
+                />
+              </div>
+
               {menu.map((item) => (
                 <Link
                   key={item.id}
@@ -297,9 +492,11 @@ function Navbar() {
                     py-4
                     text-sm
                     font-medium
-                    tracking-wide
+                    uppercase
+                    tracking-[0.08em]
                     text-white/75
                     transition
+                    hover:pl-2
                     hover:text-[#D4AF37]
                   "
                 >
@@ -307,25 +504,27 @@ function Navbar() {
                 </Link>
               ))}
 
-              <div className="mt-5 grid gap-3">
-                <a
-                  href="tel:+923352484936"
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                <Link
+                  to="/account"
+                  onClick={() => setOpen(false)}
                   className="
                     flex
                     min-h-12
                     items-center
                     justify-center
                     gap-3
-                    rounded-full
+                    rounded-md
                     border
                     border-[#D4AF37]/35
                     text-sm
+                    font-semibold
                     text-white/80
                   "
                 >
-                  <Phone size={17} aria-hidden="true" />
-                  0335 2484936
-                </a>
+                  <UserRound size={18} aria-hidden="true" />
+                  My Account
+                </Link>
 
                 <a
                   href="https://wa.me/923352484936"
@@ -337,49 +536,23 @@ function Navbar() {
                     items-center
                     justify-center
                     gap-3
-                    rounded-full
+                    rounded-md
                     bg-[#D4AF37]
                     text-sm
                     font-semibold
                     text-black
                   "
                 >
-                  <MessageCircle size={17} aria-hidden="true" />
-                  WhatsApp Consultation
+                  <MessageCircle size={18} aria-hidden="true" />
+                  WhatsApp Us
                 </a>
               </div>
             </nav>
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* Location Bar */}
-      <div
-        className="
-          border-b
-          border-[#D4AF37]/10
-          bg-[#080808]
-          px-4
-          py-2
-          text-center
-          text-[10px]
-          tracking-wide
-          text-white/45
-          sm:text-[11px]
-        "
-      >
-        <span className="inline-flex items-center justify-center gap-2">
-          <MapPin
-            size={12}
-            className="shrink-0 text-[#D4AF37]"
-            aria-hidden="true"
-          />
-
-          Lakhani Tower, Zaibunissa Street, Saddar, Karachi
-        </span>
-      </div>
     </header>
   );
 }
 
-export default Navbar;
+export default Navbar;                            

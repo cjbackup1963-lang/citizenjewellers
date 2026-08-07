@@ -14,7 +14,6 @@ function Cart() {
   const {
     cart,
     totalItems,
-    totalPrice,
     removeFromCart,
     increaseQuantity,
     decreaseQuantity,
@@ -23,19 +22,16 @@ function Cart() {
 
   const whatsappMessage = encodeURIComponent(
     [
-      "Assalamualaikum, I would like to inquire about these jewellery items:",
+      "Assalam-o-Alaikum, I would like to inquire about these jewellery items:",
       "",
       ...cart.map(
         (item, index) =>
           `${index + 1}. ${item.name}
 Quantity: ${item.quantity}
-Purity: ${item.purity}
-Price: PKR ${(item.price * item.quantity).toLocaleString()}`
+Purity: ${item.purity}`
       ),
       "",
-      `Estimated Total: PKR ${totalPrice.toLocaleString()}`,
-      "",
-      "Please confirm availability and final price according to the current gold rate.",
+      "Please confirm current prices and availability according to the latest gold rate.",
     ].join("\n")
   );
 
@@ -169,16 +165,15 @@ Price: PKR ${(item.price * item.quantity).toLocaleString()}`
                         {item.purity}
                       </p>
 
-                      <p className="mt-3 text-lg font-semibold text-[#D4AF37]">
-                        PKR {item.price.toLocaleString()}
-                      </p>
-
-                      {item.quantity > 1 && (
-                        <p className="mt-1 text-xs text-white/40">
-                          Item total: PKR{" "}
-                          {(item.price * item.quantity).toLocaleString()}
+                      <div className="mt-3">
+                        <p className="text-[10px] uppercase tracking-[0.18em] text-white/35">
+                          Current Price
                         </p>
-                      )}
+
+                        <p className="mt-1 text-lg font-semibold text-[#D4AF37]">
+                          Price on Inquiry
+                        </p>
+                      </div>
                     </div>
 
                     {/* Quantity Controls */}
@@ -276,7 +271,7 @@ Price: PKR ${(item.price * item.quantity).toLocaleString()}`
               </p>
 
               <h2 className="mt-3 font-serif text-3xl text-white">
-                Order Summary
+                Order Inquiry
               </h2>
 
               <div className="mt-7 space-y-4 text-sm text-white/55">
@@ -286,21 +281,27 @@ Price: PKR ${(item.price * item.quantity).toLocaleString()}`
                 </div>
 
                 <div className="flex justify-between gap-5">
-                  <span>Subtotal</span>
-                  <span className="text-white">
-                    PKR {totalPrice.toLocaleString()}
+                  <span>Pricing</span>
+                  <span className="font-semibold text-[#D4AF37]">
+                    On Inquiry
                   </span>
                 </div>
 
                 <p className="border-t border-white/8 pt-4 text-xs leading-6 text-white/40">
-                  Final jewellery price may vary according to the current gold
-                  rate, making charges, gemstone verification and customization.
+                  Final jewellery prices are confirmed according to the current
+                  gold rate, exact weight, making charges, gemstones and any
+                  product-specific customization.
                 </p>
               </div>
 
-              <div className="mt-6 flex justify-between gap-5 border-t border-[#D4AF37]/20 pt-5 font-serif text-xl text-[#D4AF37]">
-                <span>Estimated Total</span>
-                <span>PKR {totalPrice.toLocaleString()}</span>
+              <div className="mt-6 border-t border-[#D4AF37]/20 pt-5">
+                <p className="text-[10px] uppercase tracking-[0.2em] text-white/35">
+                  Final Amount
+                </p>
+
+                <p className="mt-2 font-serif text-2xl text-[#D4AF37]">
+                  Price on Inquiry
+                </p>
               </div>
 
               <Link
@@ -324,7 +325,7 @@ Price: PKR ${(item.price * item.quantity).toLocaleString()}`
                   hover:bg-[#e2c15b]
                 "
               >
-                Proceed to checkout
+                Continue to inquiry
                 <ArrowRight size={18} aria-hidden="true" />
               </Link>
 
@@ -353,7 +354,7 @@ Price: PKR ${(item.price * item.quantity).toLocaleString()}`
                 "
               >
                 <MessageCircle size={18} aria-hidden="true" />
-                Order inquiry on WhatsApp
+                Price inquiry on WhatsApp
               </a>
 
               <Link

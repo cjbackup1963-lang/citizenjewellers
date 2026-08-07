@@ -1,120 +1,199 @@
 import { motion } from "framer-motion";
-import { Star, Quote } from "lucide-react";
+import {
+  Quote,
+  Star,
+  ShieldCheck,
+  MessageCircle,
+} from "lucide-react";
+
+const reviews = [
+  {
+    name: "Ahmed Khan",
+    city: "Karachi",
+    text: "Outstanding craftsmanship and exceptional customer service. Every detail reflected quality and professionalism.",
+  },
+  {
+    name: "Sara Malik",
+    city: "Lahore",
+    text: "Our bridal jewellery was beautifully crafted. The finishing, presentation and guidance exceeded expectations.",
+  },
+  {
+    name: "Usman Raza",
+    city: "Islamabad",
+    text: "A premium experience from consultation to delivery. Citizen Jewellers truly values quality and trust.",
+  },
+];
 
 function Testimonials() {
-  const reviews = [
-    {
-      name: "Ahmed Khan",
-      city: "Karachi",
-      image: "https://i.pravatar.cc/200?img=11",
-      text: "Outstanding craftsmanship and excellent customer service. The jewellery exceeded all my expectations.",
-    },
-    {
-      name: "Sara Malik",
-      city: "Lahore",
-      image: "https://i.pravatar.cc/200?img=32",
-      text: "Citizen Jewellers created our bridal jewellery beautifully. Elegant finishing and trusted quality.",
-    },
-    {
-      name: "Usman Raza",
-      city: "Islamabad",
-      image: "https://i.pravatar.cc/200?img=15",
-      text: "Premium experience from beginning to end. Highly recommended for luxury jewellery.",
-    },
-  ];
-
   return (
     <section
       id="testimonials"
-      className="relative overflow-hidden bg-[#050505] py-32 px-6"
+      className="relative isolate overflow-hidden bg-[#050505] px-5 py-24 sm:px-8 lg:px-10 lg:py-32"
     >
-      <div className="absolute left-1/2 top-0 h-80 w-80 -translate-x-1/2 rounded-full bg-[#D4AF37]/10 blur-[120px]" />
+      {/* Background Banner */}
+      <div className="absolute inset-0 -z-20">
+        <img
+          src="/images/luxury/testimonials/customer-testimonials-banner.webp"
+          alt=""
+          className="h-full w-full object-cover object-center opacity-15"
+        />
+      </div>
 
-      <div className="relative mx-auto max-w-7xl">
+      <div className="absolute inset-0 -z-10 bg-black/85" />
+
+      <div className="mx-auto max-w-7xl">
+
+        {/* Heading */}
+
         <motion.div
           initial={{ opacity: 0, y: 35 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-20 text-center"
+          className="mx-auto mb-16 max-w-3xl text-center"
         >
-          <p className="uppercase tracking-[8px] text-[#D4AF37]">
-            Testimonials
+          <p className="text-xs uppercase tracking-[0.42em] text-[#D4AF37]">
+            Client Testimonials
           </p>
 
-          <h2 className="mt-5 text-5xl font-serif text-white md:text-7xl">
-            Loved By Our Clients
+          <h2 className="mt-5 font-serif text-4xl text-white sm:text-5xl lg:text-7xl">
+            Trusted Since 1963
           </h2>
 
-          <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-gray-400">
-            Thousands of satisfied customers have trusted Citizen Jewellers for
-            generations.
+          <p className="mt-6 text-white/55 leading-8">
+            For generations our customers have trusted Citizen Jewellers for
+            quality, honesty and exceptional craftsmanship.
           </p>
         </motion.div>
 
-        <div className="grid gap-8 lg:grid-cols-3">
+        {/* Hero Banner */}
+
+        <motion.div
+          initial={{ opacity: 0, y: 45 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="overflow-hidden rounded-[2rem] border border-[#D4AF37]/20 bg-black shadow-[0_30px_90px_rgba(0,0,0,.45)]"
+        >
+          <img
+            src="/images/luxury/testimonials/customer-testimonials-banner.webp"
+            alt="Happy Citizen Jewellers Customers"
+            className="w-full h-auto object-contain"
+          />
+        </motion.div>
+
+        {/* Reviews */}
+
+        <div className="mt-12 grid gap-8 lg:grid-cols-3">
+
           {reviews.map((review, index) => (
-            <motion.div
+
+            <motion.article
               key={review.name}
-              initial={{ opacity: 0, y: 60 }}
+              initial={{ opacity: 0, y: 45 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{
-                duration: 0.7,
-                delay: index * 0.15,
+                delay: index * .12,
+                duration: .7,
               }}
-              whileHover={{
-                y: -12,
-                scale: 1.02,
-              }}
-              className="relative overflow-hidden rounded-[32px] border border-[#D4AF37]/20 bg-[#0d0d0d] p-8"
+              whileHover={{ y: -8 }}
+              className="
+                relative
+                rounded-[2rem]
+                border
+                border-[#D4AF37]/20
+                bg-[#0b0b0b]
+                p-8
+              "
             >
+
               <Quote
-                className="absolute right-8 top-8 text-[#D4AF37]/20"
-                size={60}
+                size={58}
+                className="absolute right-7 top-7 text-[#D4AF37]/15"
               />
 
-              <div className="flex items-center gap-4">
-                <img
-                  src={review.image}
-                  alt={review.name}
-                  className="h-16 w-16 rounded-full border-2 border-[#D4AF37] object-cover"
-                />
+              <div className="flex gap-1">
+                {[1,2,3,4,5].map((item)=>(
 
-                <div>
-                  <h3 className="text-xl font-serif text-white">
-                    {review.name}
-                  </h3>
-
-                  <p className="text-sm text-[#D4AF37]">
-                    {review.city}
-                  </p>
-                </div>
-              </div>
-
-              <div className="mt-6 flex gap-1">
-                {[1, 2, 3, 4, 5].map((star) => (
                   <Star
-                    key={star}
+                    key={item}
                     size={18}
                     fill="currentColor"
                     className="text-[#D4AF37]"
                   />
+
                 ))}
               </div>
 
-              <p className="mt-6 leading-8 text-gray-300">
+              <p className="mt-6 leading-8 text-white/65">
                 "{review.text}"
               </p>
 
-              <div className="mt-8 border-t border-[#D4AF37]/20 pt-5">
-                <span className="rounded-full border border-[#D4AF37]/30 px-4 py-2 text-xs uppercase tracking-[3px] text-[#D4AF37]">
+              <div className="mt-8 border-t border-white/10 pt-6">
+
+                <h3 className="font-serif text-2xl text-white">
+                  {review.name}
+                </h3>
+
+                <p className="mt-1 text-[#D4AF37]">
+                  {review.city}
+                </p>
+
+                <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/30 px-4 py-2 text-xs uppercase tracking-[0.2em] text-[#D4AF37]">
+
+                  <ShieldCheck size={15} />
+
                   Verified Customer
-                </span>
+
+                </div>
+
               </div>
-            </motion.div>
+
+            </motion.article>
+
           ))}
+
         </div>
+
+        {/* Bottom CTA */}
+
+        <div className="mt-14 rounded-3xl border border-[#D4AF37]/20 bg-white/[0.03] p-8 text-center">
+
+          <h3 className="font-serif text-3xl text-white">
+            Ready to Create Your Next Jewellery Story?
+          </h3>
+
+          <p className="mx-auto mt-4 max-w-2xl leading-8 text-white/50">
+            Visit our showroom or speak with our jewellery experts for
+            personalised guidance.
+          </p>
+
+          <a
+            href="https://wa.me/923352484936"
+            target="_blank"
+            rel="noreferrer"
+            className="
+              mt-8
+              inline-flex
+              items-center
+              gap-3
+              rounded-full
+              bg-[#D4AF37]
+              px-8
+              py-4
+              font-semibold
+              text-black
+              transition
+              hover:-translate-y-1
+            "
+          >
+            <MessageCircle size={18}/>
+            Contact on WhatsApp
+          </a>
+
+        </div>
+
       </div>
+
     </section>
   );
 }

@@ -1,189 +1,574 @@
+import { useEffect, useState } from "react";
 import {
-  Globe,
+  ArrowUp,
+  Clock,
   MapPin,
   MessageCircle,
+  Navigation,
   Phone,
 } from "lucide-react";
-import { Link } from "react-router-dom";
 
-const exploreLinks = [
-  { label: "Collections", target: "collections" },
-  { label: "Gold Rates", target: "rates" },
-  { label: "Products", target: "products" },
-  { label: "Services", target: "services" },
-  { label: "Contact", target: "contact" },
+const quickLinks = [
+  { name: "Home", href: "#home" },
+  { name: "Collections", href: "#collections" },
+  { name: "Gold Rates", href: "#rates" },
+  { name: "About Us", href: "#about" },
+  { name: "Services", href: "#services" },
+  { name: "Gallery", href: "#gallery" },
+  { name: "Contact", href: "#contact" },
+];
+
+const collections = [
+  "Premium 21K Gold Jewellery",
+  "Diamond Jewellery",
+  "Bridal Collection",
+  "Men’s Collection",
+  "Custom Jewellery",
 ];
 
 function Footer() {
+  const [showScrollButton, setShowScrollButton] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollButton(window.scrollY > 500);
+    };
+
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
-    <footer className="relative overflow-hidden border-t border-[#D4AF37]/15 bg-[#030303] px-5 py-16 sm:px-6 lg:py-20">
+    <footer className="relative isolate overflow-hidden bg-black">
+      {/* Background Image */}
+      <div className="absolute inset-0 -z-30">
+        <img
+          src="/images/luxury/footer/footer-background.webp"
+          alt=""
+          loading="lazy"
+          decoding="async"
+          className="h-full w-full object-cover object-center opacity-15"
+        />
+      </div>
 
-      <div className="absolute left-1/2 top-0 h-px w-2/3 -translate-x-1/2 bg-gradient-to-r from-transparent via-[#D4AF37]/60 to-transparent" />
+      {/* Dark Overlay */}
+      <div className="absolute inset-0 -z-20 bg-black/90" />
 
-      <div className="mx-auto max-w-7xl">
+      <div
+        className="
+          absolute
+          inset-0
+          -z-20
+          bg-gradient-to-b
+          from-black/65
+          via-black/90
+          to-black
+        "
+      />
 
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-[1.4fr_0.8fr_1fr]">
+      {/* Gold Glow */}
+      <div
+        className="
+          pointer-events-none
+          absolute
+          left-1/2
+          top-0
+          -z-10
+          h-72
+          w-72
+          -translate-x-1/2
+          rounded-full
+          bg-[#D4AF37]/10
+          blur-[130px]
+        "
+      />
 
+      {/* Animated Gold Line */}
+      <div className="relative h-px overflow-hidden bg-[#D4AF37]/15">
+        <div
+          className="
+            absolute
+            inset-y-0
+            left-[-35%]
+            w-1/3
+            bg-gradient-to-r
+            from-transparent
+            via-[#D4AF37]
+            to-transparent
+            animate-[footerShine_5s_linear_infinite]
+          "
+        />
+      </div>
+
+      <div className="relative mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:px-10 lg:py-24">
+        {/* Main Footer Grid */}
+        <div className="grid gap-14 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}
-
-          <div>
-
-            <Link to="/">
+          <div className="lg:pr-6">
+            <a
+              href="#home"
+              aria-label="Citizen Jewellers home"
+              className="inline-block"
+            >
               <img
-                src="/images/logo.webp"
-                alt="Citizen Jewellers"
-                className="h-20 w-auto object-contain"
+                src="/images/logo.png"
+                alt="Citizen Jewellers by Lakhani Sons"
+                width={240}
+                height={110}
+                loading="lazy"
+                decoding="async"
+                className="h-20 w-auto max-w-[230px] object-contain"
               />
-            </Link>
+            </a>
 
-            <p className="mt-4 text-[10px] uppercase tracking-[0.35em] text-[#D4AF37]">
-              LAKHANI SONS • SINCE 1963
+            <p className="mt-6 max-w-sm text-sm leading-7 text-white/50">
+              Premium 21K gold, diamond and gemstone jewellery shaped by
+              heritage, trusted craftsmanship and timeless elegance since
+              1963.
             </p>
 
-            <p className="mt-6 max-w-md text-sm leading-7 text-white/50">
-              A heritage jewellery house creating timeless 21K gold,
-              diamond and gemstone jewellery with trusted craftsmanship
-              and luxury finishing.
-            </p>
-
-            <div className="mt-8 flex gap-3">
-
+            {/* Social Icons */}
+            <div className="mt-8 flex flex-wrap gap-3">
+              {/* Instagram */}
               <a
-                href="https://instagram.com/citizenjewellers"
+                href="https://www.instagram.com/citizenjewellers"
                 target="_blank"
                 rel="noreferrer"
-                className="grid h-11 w-11 place-items-center rounded-full border border-[#D4AF37]/35 text-[#D4AF37] transition hover:bg-[#D4AF37] hover:text-black"
+                aria-label="Citizen Jewellers Instagram"
+                className="
+                  flex
+                  h-11
+                  w-11
+                  items-center
+                  justify-center
+                  rounded-full
+                  border
+                  border-[#D4AF37]/30
+                  text-[#D4AF37]
+                  transition
+                  duration-300
+                  hover:-translate-y-1
+                  hover:bg-[#D4AF37]
+                  hover:text-black
+                "
               >
-                <Globe size={18} />
+                <svg
+                  viewBox="0 0 24 24"
+                  className="h-5 w-5"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <rect x="3" y="3" width="18" height="18" rx="5" />
+                  <circle cx="12" cy="12" r="4" />
+                  <circle
+                    cx="17.5"
+                    cy="6.5"
+                    r="1"
+                    fill="currentColor"
+                    stroke="none"
+                  />
+                </svg>
               </a>
 
+              {/* Facebook */}
+              <a
+                href="#"
+                aria-label="Citizen Jewellers Facebook"
+                className="
+                  flex
+                  h-11
+                  w-11
+                  items-center
+                  justify-center
+                  rounded-full
+                  border
+                  border-[#D4AF37]/30
+                  text-[#D4AF37]
+                  transition
+                  duration-300
+                  hover:-translate-y-1
+                  hover:bg-[#D4AF37]
+                  hover:text-black
+                "
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  className="h-5 w-5"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path d="M13.6 21v-8h2.8l.4-3h-3.2V8.1c0-.9.3-1.5 1.6-1.5H17V3.9c-.3 0-1.4-.1-2.6-.1-2.6 0-4.4 1.6-4.4 4.6V10H7v3h3v8h3.6Z" />
+                </svg>
+              </a>
+
+              {/* WhatsApp */}
               <a
                 href="https://wa.me/923352484936"
                 target="_blank"
                 rel="noreferrer"
-                className="grid h-11 w-11 place-items-center rounded-full border border-[#D4AF37]/35 text-[#D4AF37] transition hover:bg-[#D4AF37] hover:text-black"
+                aria-label="Citizen Jewellers WhatsApp"
+                className="
+                  flex
+                  h-11
+                  w-11
+                  items-center
+                  justify-center
+                  rounded-full
+                  border
+                  border-[#D4AF37]/30
+                  text-[#D4AF37]
+                  transition
+                  duration-300
+                  hover:-translate-y-1
+                  hover:bg-[#D4AF37]
+                  hover:text-black
+                "
               >
-                <MessageCircle size={18} />
+                <MessageCircle size={19} aria-hidden="true" />
               </a>
-
             </div>
-
           </div>
 
-          {/* Explore */}
-
+          {/* Quick Links */}
           <div>
+            <h3 className="font-serif text-2xl text-white">Quick Links</h3>
 
-            <h3 className="font-serif text-2xl text-white">
-              Explore
-            </h3>
-
-            <ul className="mt-6 space-y-4">
-
-              {exploreLinks.map((item) => (
-
-                <li key={item.target}>
-
-                  <Link
-                    to={`/#${item.target}`}
-                    className="text-sm text-white/50 transition hover:text-[#D4AF37]"
-                  >
-                    {item.label}
-                  </Link>
-
-                </li>
-
-              ))}
-
-              <li>
-
-                <Link
-                  to="/cart"
-                  className="text-sm text-white/50 transition hover:text-[#D4AF37]"
+            <div className="mt-7 space-y-4">
+              {quickLinks.map((link) => (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  className="
+                    group
+                    flex
+                    w-fit
+                    items-center
+                    gap-3
+                    text-sm
+                    text-white/50
+                    transition
+                    duration-300
+                    hover:translate-x-1
+                    hover:text-[#D4AF37]
+                  "
                 >
-                  Shopping Cart
-                </Link>
+                  <span
+                    className="
+                      h-px
+                      w-4
+                      bg-[#D4AF37]/35
+                      transition-all
+                      duration-300
+                      group-hover:w-6
+                      group-hover:bg-[#D4AF37]
+                    "
+                  />
 
-              </li>
+                  {link.name}
+                </a>
+              ))}
+            </div>
+          </div>
 
-            </ul>
+          {/* Collections */}
+          <div>
+            <h3 className="font-serif text-2xl text-white">Collections</h3>
 
+            <div className="mt-7 space-y-4">
+              {collections.map((item) => (
+                <a
+                  key={item}
+                  href="#collections"
+                  className="
+                    block
+                    text-sm
+                    leading-6
+                    text-white/50
+                    transition
+                    duration-300
+                    hover:text-[#D4AF37]
+                  "
+                >
+                  {item}
+                </a>
+              ))}
+            </div>
           </div>
 
           {/* Contact */}
-
           <div>
+            <h3 className="font-serif text-2xl text-white">Visit & Contact</h3>
 
-            <h3 className="font-serif text-2xl text-white">
-              Visit Us
-            </h3>
+            <div className="mt-7 space-y-6">
+              <div className="flex items-start gap-4">
+                <MapPin
+                  size={20}
+                  className="mt-1 shrink-0 text-[#D4AF37]"
+                  aria-hidden="true"
+                />
 
-            <div className="mt-6 space-y-5 text-sm text-white/50">
+                <p className="text-sm leading-7 text-white/50">
+                  Citizen Jewellers, Lakhani Tower, Main Zaibunissa Street,
+                  Saddar, Karachi
+                </p>
+              </div>
 
               <a
                 href="tel:+923352484936"
-                className="flex items-center gap-3 transition hover:text-[#D4AF37]"
+                className="
+                  flex
+                  items-center
+                  gap-4
+                  text-sm
+                  text-white/50
+                  transition
+                  hover:text-[#D4AF37]
+                "
               >
                 <Phone
-                  size={18}
-                  className="text-[#D4AF37]"
+                  size={20}
+                  className="shrink-0 text-[#D4AF37]"
+                  aria-hidden="true"
                 />
 
                 0335 2484936
-
               </a>
 
-              <div className="flex items-start gap-3">
-
-                <MapPin
-                  size={18}
-                  className="mt-1 text-[#D4AF37]"
+              <div className="flex items-start gap-4">
+                <Clock
+                  size={20}
+                  className="mt-1 shrink-0 text-[#D4AF37]"
+                  aria-hidden="true"
                 />
 
-                <span>
-                  Lakhani Tower
+                <p className="text-sm leading-7 text-white/50">
+                  Monday – Saturday
                   <br />
-                  Zaibunissa Street
-                  <br />
-                  Saddar Karachi
-                </span>
-
+                  01:00 PM – 09:00 PM
+                </p>
               </div>
 
-              <p>
-                Monday – Saturday
-                <br />
-                01:00 PM – 09:00 PM
-              </p>
+              <div className="flex flex-col gap-3 pt-1">
+                <a
+                  href="https://wa.me/923352484936"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="
+                    inline-flex
+                    min-h-12
+                    items-center
+                    justify-center
+                    gap-3
+                    rounded-full
+                    bg-[#D4AF37]
+                    px-6
+                    py-3
+                    text-sm
+                    font-semibold
+                    text-black
+                    transition
+                    duration-300
+                    hover:-translate-y-1
+                    hover:bg-[#e5c65c]
+                  "
+                >
+                  <MessageCircle size={18} aria-hidden="true" />
+                  WhatsApp Consultation
+                </a>
 
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=Lakhani+Tower+Zaibunissa+Street+Saddar+Karachi"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="
+                    inline-flex
+                    min-h-12
+                    items-center
+                    justify-center
+                    gap-3
+                    rounded-full
+                    border
+                    border-[#D4AF37]/40
+                    px-6
+                    py-3
+                    text-sm
+                    font-semibold
+                    text-[#D4AF37]
+                    transition
+                    duration-300
+                    hover:-translate-y-1
+                    hover:bg-[#D4AF37]
+                    hover:text-black
+                  "
+                >
+                  <Navigation size={18} aria-hidden="true" />
+                  Open in Maps
+                </a>
+              </div>
             </div>
+          </div>
+        </div>
 
-            <a
-              href="https://wa.me/923352484936"
-              target="_blank"
-              rel="noreferrer"
-              className="mt-8 inline-flex items-center gap-3 rounded-full bg-[#D4AF37] px-6 py-3 font-semibold text-black transition hover:scale-105"
+        {/* Newsletter / CTA */}
+        <div
+          className="
+            mt-16
+            grid
+            gap-6
+            rounded-[2rem]
+            border
+            border-[#D4AF37]/18
+            bg-white/[0.03]
+            p-7
+            backdrop-blur-xl
+            md:grid-cols-[1fr_auto]
+            md:items-center
+            sm:p-8
+          "
+        >
+          <div>
+            <p
+              className="
+                text-xs
+                uppercase
+                tracking-[0.3em]
+                text-[#D4AF37]
+              "
             >
-              <MessageCircle size={18} />
-              Book Consultation
-            </a>
+              Citizen Jewellers
+            </p>
 
+            <h3 className="mt-3 font-serif text-2xl text-white sm:text-3xl">
+              Looking for the Latest Jewellery and Gold Rate Guidance?
+            </h3>
+
+            <p className="mt-3 max-w-3xl text-sm leading-7 text-white/45">
+              Connect with our team for current rates, collection availability
+              and personalised jewellery assistance.
+            </p>
           </div>
 
+          <a
+            href="https://wa.me/923352484936"
+            target="_blank"
+            rel="noreferrer"
+            className="
+              inline-flex
+              min-h-13
+              shrink-0
+              items-center
+              justify-center
+              gap-3
+              rounded-full
+              bg-[#D4AF37]
+              px-7
+              py-3.5
+              text-sm
+              font-semibold
+              text-black
+              transition
+              duration-300
+              hover:-translate-y-1
+              hover:bg-[#e5c65c]
+            "
+          >
+            <MessageCircle size={18} aria-hidden="true" />
+            Speak With an Expert
+          </a>
         </div>
 
-        <div className="mt-14 border-t border-white/10 pt-8 text-center text-xs text-white/35">
+        {/* Bottom Footer */}
+        <div
+          className="
+            mt-14
+            flex
+            flex-col
+            items-center
+            justify-between
+            gap-5
+            border-t
+            border-[#D4AF37]/15
+            pt-8
+            text-center
+            text-xs
+            leading-6
+            text-white/35
+            md:flex-row
+            md:text-left
+          "
+        >
+          <p>
+            © 2026 Citizen Jewellers by Lakhani Sons. All rights reserved.
+          </p>
 
-          © {new Date().getFullYear()} Citizen Jewellers • All Rights Reserved.
-
-          <br />
-
-          Jewellery prices are subject to live gold rates and making charges.
-
+          <p>Heritage, trust and craftsmanship since 1963.</p>
         </div>
-
       </div>
 
+      {/* Scroll to Top Button */}
+      {showScrollButton && (
+        <button
+          type="button"
+          onClick={scrollToTop}
+          aria-label="Scroll to top"
+          className="
+            fixed
+            bottom-6
+            right-6
+            z-50
+            flex
+            h-12
+            w-12
+            items-center
+            justify-center
+            rounded-full
+            border
+            border-[#D4AF37]/40
+            bg-black/85
+            text-[#D4AF37]
+            shadow-[0_15px_40px_rgba(0,0,0,0.4)]
+            backdrop-blur-md
+            transition
+            duration-300
+            hover:-translate-y-1
+            hover:bg-[#D4AF37]
+            hover:text-black
+          "
+        >
+          <ArrowUp size={20} aria-hidden="true" />
+        </button>
+      )}
+
+      {/* Local Animation */}
+      <style>{`
+        @keyframes footerShine {
+          from {
+            transform: translateX(0);
+          }
+
+          to {
+            transform: translateX(500%);
+          }
+        }
+      `}</style>
     </footer>
   );
 }

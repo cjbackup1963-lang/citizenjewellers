@@ -8,7 +8,15 @@ function ProductCatalog() {
   return (
     <section
       id="products"
-      className="relative overflow-hidden bg-[#050505] px-5 py-24 sm:px-6 lg:py-28"
+      className="
+        relative
+        overflow-hidden
+        bg-[#050505]
+        px-5
+        py-24
+        sm:px-6
+        lg:py-28
+      "
     >
       <div className="mx-auto max-w-7xl">
         {/* Heading */}
@@ -71,12 +79,13 @@ function ProductCatalog() {
                     alt={product.name}
                     loading="lazy"
                     decoding="async"
-                    width="800"
-                    height="1000"
+                    width={800}
+                    height={1000}
                     className="
                       h-full
                       w-full
                       object-cover
+                      object-center
                       transition-transform
                       duration-500
                       group-hover:scale-[1.04]
@@ -85,6 +94,7 @@ function ProductCatalog() {
 
                   <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent" />
 
+                  {/* Purity Badge */}
                   <div
                     className="
                       absolute
@@ -107,6 +117,7 @@ function ProductCatalog() {
                     {product.purity}
                   </div>
 
+                  {/* Arrow */}
                   <div
                     className="
                       absolute
@@ -142,12 +153,26 @@ function ProductCatalog() {
                     {product.name}
                   </h3>
 
-                  <div className="mt-4 flex items-center justify-between gap-4">
-                    <p className="text-sm text-white/45">{product.weight}</p>
+                  <div className="mt-4 flex items-end justify-between gap-4 border-t border-white/5 pt-4">
+                    <div>
+                      <p className="text-[10px] uppercase tracking-[0.16em] text-white/35">
+                        Weight
+                      </p>
 
-                    <p className="text-lg font-semibold text-[#D4AF37]">
-                      Rs. {product.price.toLocaleString()}
-                    </p>
+                      <p className="mt-1 text-sm text-white/50">
+                        {product.weight}
+                      </p>
+                    </div>
+
+                    <div className="text-right">
+                      <p className="text-[10px] uppercase tracking-[0.16em] text-white/35">
+                        Availability
+                      </p>
+
+                      <p className="mt-1 text-base font-semibold text-[#D4AF37]">
+                        Price on Inquiry
+                      </p>
+                    </div>
                   </div>
                 </div>
               </Link>
@@ -156,7 +181,7 @@ function ProductCatalog() {
               <div className="border-t border-white/5 px-6 py-5">
                 <a
                   href={`https://wa.me/923352484936?text=${encodeURIComponent(
-                    `Assalamualaikum, I am interested in ${product.name}. Please share more details.`
+                    `Assalam-o-Alaikum, I am interested in ${product.name}. Please share its current price and availability.`
                   )}`}
                   target="_blank"
                   rel="noreferrer"

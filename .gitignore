@@ -26,3 +26,7 @@ dist-ssr
 .env
 .env.*
 !.env.example
+# Local backups and deployment archives
+images-backup/
+*.zip
+optimize-images.mjs
