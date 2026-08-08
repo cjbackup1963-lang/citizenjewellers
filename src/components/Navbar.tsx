@@ -32,7 +32,7 @@ function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setScrolled(window.scrollY > 16);
     };
 
     handleScroll();
@@ -50,6 +50,14 @@ function Navbar() {
     setOpen(false);
     setSearchOpen(false);
   }, [location.pathname]);
+
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
 
   const handleNavigation = (id: string) => {
     setOpen(false);
@@ -70,36 +78,54 @@ function Navbar() {
       {/* Main Navbar */}
       <div
         className={`
+          relative
           border-b
-          border-[#D4AF37]/35
           transition-all
           duration-300
           ${
             scrolled
-              ? "bg-black/95 shadow-[0_14px_45px_rgba(0,0,0,0.55)] backdrop-blur-xl"
-              : "bg-black/90 backdrop-blur-lg"
+              ? "border-[#D4AF37]/30 bg-black/95 shadow-[0_14px_45px_rgba(0,0,0,0.55)] backdrop-blur-xl"
+              : "border-[#D4AF37]/20 bg-black/90 backdrop-blur-lg"
           }
         `}
       >
+        {/* Mobile subtle gold line */}
+        <div
+          className="
+            pointer-events-none
+            absolute
+            inset-x-0
+            bottom-0
+            h-px
+            bg-gradient-to-r
+            from-transparent
+            via-[#D4AF37]/60
+            to-transparent
+            xl:hidden
+          "
+        />
+
         <div
           className="
             mx-auto
             flex
-            min-h-[92px]
+            min-h-[74px]
             max-w-[1520px]
             items-center
             justify-between
-            gap-5
+            gap-3
             px-4
+            sm:min-h-[82px]
             sm:px-6
             lg:px-8
+            xl:min-h-[92px]
           "
         >
           {/* Logo */}
           <Link
             to="/"
             aria-label="Citizen Jewellers home"
-            className="shrink-0"
+            className="relative z-10 shrink-0"
             onClick={() => {
               setOpen(false);
               setSearchOpen(false);
@@ -118,15 +144,18 @@ function Navbar() {
               loading="eager"
               decoding="async"
               className="
-                h-[72px]
+                h-[54px]
                 w-auto
-                max-w-[245px]
+                max-w-[190px]
                 object-contain
                 transition-transform
                 duration-500
                 hover:scale-[1.025]
-                sm:h-[78px]
-                sm:max-w-[285px]
+                xs:max-w-[205px]
+                sm:h-[62px]
+                sm:max-w-[235px]
+                md:max-w-[255px]
+                xl:h-[78px]
                 xl:max-w-[320px]
               "
             />
@@ -186,8 +215,8 @@ function Navbar() {
           </nav>
 
           {/* Right Actions */}
-          <div className="flex shrink-0 items-center gap-1 sm:gap-2">
-            {/* Search */}
+          <div className="relative z-10 flex shrink-0 items-center gap-1.5 sm:gap-2">
+            {/* Desktop Search */}
             <button
               type="button"
               onClick={() => setSearchOpen((value) => !value)}
@@ -243,22 +272,30 @@ function Navbar() {
                 w-11
                 place-items-center
                 rounded-full
+                border
+                border-[#D4AF37]/20
+                bg-[#D4AF37]/[0.035]
                 text-[#D4AF37]
                 transition
                 duration-300
+                hover:border-[#D4AF37]/50
                 hover:bg-[#D4AF37]/10
                 hover:text-[#f1cf64]
+                sm:h-12
+                sm:w-12
+                xl:border-transparent
+                xl:bg-transparent
               "
               aria-label={`Cart with ${totalItems} items`}
             >
-              <ShoppingCart size={22} aria-hidden="true" />
+              <ShoppingCart size={21} aria-hidden="true" />
 
               {totalItems > 0 && (
                 <span
                   className="
                     absolute
                     -right-0.5
-                    top-0
+                    -top-0.5
                     grid
                     min-h-5
                     min-w-5
@@ -278,7 +315,7 @@ function Navbar() {
               )}
             </Link>
 
-            {/* WhatsApp */}
+            {/* Desktop WhatsApp */}
             <a
               href="https://wa.me/923352484936"
               target="_blank"
@@ -311,7 +348,7 @@ function Navbar() {
               WhatsApp Us
             </a>
 
-            {/* Mobile Menu */}
+            {/* Mobile Menu Button */}
             <button
               type="button"
               onClick={() => setOpen((value) => !value)}
@@ -321,20 +358,27 @@ function Navbar() {
                 w-11
                 place-items-center
                 rounded-full
+                border
+                border-[#D4AF37]/25
+                bg-[#D4AF37]/[0.04]
                 text-[#D4AF37]
                 transition
+                duration-300
+                hover:border-[#D4AF37]/60
                 hover:bg-[#D4AF37]/10
+                sm:h-12
+                sm:w-12
                 xl:hidden
               "
               aria-label={open ? "Close menu" : "Open menu"}
               aria-expanded={open}
             >
-              {open ? <X size={27} /> : <Menu size={27} />}
+              {open ? <X size={25} /> : <Menu size={25} />}
             </button>
           </div>
         </div>
 
-        {/* Search Bar */}
+        {/* Desktop Search Bar */}
         <AnimatePresence initial={false}>
           {searchOpen && (
             <motion.div
@@ -412,147 +456,319 @@ function Navbar() {
         </AnimatePresence>
       </div>
 
-      {/* Mobile Navigation */}
+      {/* Premium Mobile Drawer */}
       <AnimatePresence initial={false}>
         {open && (
-          <motion.div
-            initial={{
-              opacity: 0,
-              height: 0,
-            }}
-            animate={{
-              opacity: 1,
-              height: "auto",
-            }}
-            exit={{
-              opacity: 0,
-              height: 0,
-            }}
-            transition={{
-              duration: 0.28,
-              ease: "easeOut",
-            }}
-            className="
-              overflow-hidden
-              border-b
-              border-[#D4AF37]/25
-              bg-black/98
-              shadow-[0_20px_50px_rgba(0,0,0,0.55)]
-              backdrop-blur-xl
-              xl:hidden
-            "
-          >
-            <nav
-              className="mx-auto flex max-w-7xl flex-col px-5 py-5 sm:px-7"
-              aria-label="Mobile navigation"
+          <>
+            {/* Backdrop */}
+            <motion.button
+              type="button"
+              aria-label="Close navigation"
+              onClick={() => setOpen(false)}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              className="
+                fixed
+                inset-0
+                top-[74px]
+                z-40
+                bg-black/70
+                backdrop-blur-sm
+                sm:top-[82px]
+                xl:hidden
+              "
+            />
+
+            {/* Drawer */}
+            <motion.div
+              initial={{
+                opacity: 0,
+                y: -16,
+              }}
+              animate={{
+                opacity: 1,
+                y: 0,
+              }}
+              exit={{
+                opacity: 0,
+                y: -16,
+              }}
+              transition={{
+                duration: 0.3,
+                ease: "easeOut",
+              }}
+              className="
+                fixed
+                inset-x-0
+                top-[74px]
+                z-50
+                max-h-[calc(100svh-74px)]
+                overflow-y-auto
+                border-b
+                border-[#D4AF37]/30
+                bg-[#050505]/98
+                shadow-[0_24px_70px_rgba(0,0,0,0.8)]
+                backdrop-blur-2xl
+                sm:top-[82px]
+                sm:max-h-[calc(100svh-82px)]
+                xl:hidden
+              "
             >
-              {/* Mobile Search */}
+              {/* Decorative glow */}
               <div
                 className="
-                  mb-4
-                  flex
-                  items-center
-                  gap-3
+                  pointer-events-none
+                  absolute
+                  -right-16
+                  top-8
+                  h-48
+                  w-48
                   rounded-full
-                  border
-                  border-[#D4AF37]/30
-                  bg-[#080808]
-                  px-4
+                  bg-[#D4AF37]/10
+                  blur-[90px]
                 "
+              />
+
+              <nav
+                className="
+                  relative
+                  mx-auto
+                  flex
+                  max-w-2xl
+                  flex-col
+                  px-5
+                  pb-8
+                  pt-5
+                  sm:px-7
+                  sm:pb-10
+                "
+                aria-label="Mobile navigation"
               >
-                <Search
-                  size={18}
-                  className="text-[#D4AF37]"
-                  aria-hidden="true"
-                />
-
-                <input
-                  type="search"
-                  placeholder="Search jewellery..."
+                {/* Search */}
+                <div
                   className="
-                    min-h-12
-                    w-full
-                    bg-transparent
-                    text-sm
-                    text-white
-                    outline-none
-                    placeholder:text-white/35
-                  "
-                />
-              </div>
-
-              {menu.map((item) => (
-                <Link
-                  key={item.id}
-                  to={`/#${item.id}`}
-                  onClick={() => handleNavigation(item.id)}
-                  className="
-                    border-b
-                    border-white/5
-                    py-4
-                    text-sm
-                    font-medium
-                    uppercase
-                    tracking-[0.08em]
-                    text-white/75
-                    transition
-                    hover:pl-2
-                    hover:text-[#D4AF37]
-                  "
-                >
-                  {item.name}
-                </Link>
-              ))}
-
-              <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                <Link
-                  to="/account"
-                  onClick={() => setOpen(false)}
-                  className="
+                    mb-5
                     flex
-                    min-h-12
                     items-center
-                    justify-center
                     gap-3
-                    rounded-md
+                    rounded-2xl
                     border
-                    border-[#D4AF37]/35
-                    text-sm
-                    font-semibold
-                    text-white/80
+                    border-[#D4AF37]/25
+                    bg-white/[0.025]
+                    px-4
+                    shadow-inner
                   "
                 >
-                  <UserRound size={18} aria-hidden="true" />
-                  My Account
-                </Link>
+                  <Search
+                    size={18}
+                    className="shrink-0 text-[#D4AF37]"
+                    aria-hidden="true"
+                  />
 
+                  <input
+                    type="search"
+                    placeholder="Search jewellery..."
+                    className="
+                      min-h-13
+                      w-full
+                      bg-transparent
+                      text-sm
+                      text-white
+                      outline-none
+                      placeholder:text-white/30
+                    "
+                  />
+                </div>
+
+                {/* Menu Label */}
+                <div className="mb-2 flex items-center justify-between">
+                  <p className="text-[10px] uppercase tracking-[0.32em] text-[#D4AF37]">
+                    Explore
+                  </p>
+
+                  <p className="text-[10px] uppercase tracking-[0.18em] text-white/25">
+                    Since 1963
+                  </p>
+                </div>
+
+                {/* Menu Links */}
+                <div className="divide-y divide-white/5">
+                  {menu.map((item, index) => (
+                    <motion.div
+                      key={item.id}
+                      initial={{ opacity: 0, x: -14 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{
+                        delay: 0.04 + index * 0.035,
+                      }}
+                    >
+                      <Link
+                        to={`/#${item.id}`}
+                        onClick={() => handleNavigation(item.id)}
+                        className="
+                          group
+                          flex
+                          min-h-14
+                          items-center
+                          justify-between
+                          gap-4
+                          py-3
+                          text-[15px]
+                          font-medium
+                          uppercase
+                          tracking-[0.08em]
+                          text-white/80
+                          transition
+                          duration-300
+                          hover:pl-1
+                          hover:text-[#D4AF37]
+                        "
+                      >
+                        <span>{item.name}</span>
+
+                        <span
+                          className="
+                            h-1.5
+                            w-1.5
+                            rounded-full
+                            bg-[#D4AF37]/30
+                            transition
+                            group-hover:scale-125
+                            group-hover:bg-[#D4AF37]
+                          "
+                        />
+                      </Link>
+                    </motion.div>
+                  ))}
+                </div>
+
+                {/* Utility Actions */}
+                <div className="mt-6 grid grid-cols-2 gap-3">
+                  <Link
+                    to="/account"
+                    onClick={() => setOpen(false)}
+                    className="
+                      flex
+                      min-h-13
+                      items-center
+                      justify-center
+                      gap-2.5
+                      rounded-xl
+                      border
+                      border-[#D4AF37]/25
+                      bg-white/[0.02]
+                      px-4
+                      text-sm
+                      font-semibold
+                      text-white/75
+                      transition
+                      hover:border-[#D4AF37]/50
+                      hover:text-[#D4AF37]
+                    "
+                  >
+                    <UserRound size={17} aria-hidden="true" />
+                    Account
+                  </Link>
+
+                  <Link
+                    to="/cart"
+                    onClick={() => setOpen(false)}
+                    className="
+                      relative
+                      flex
+                      min-h-13
+                      items-center
+                      justify-center
+                      gap-2.5
+                      rounded-xl
+                      border
+                      border-[#D4AF37]/25
+                      bg-white/[0.02]
+                      px-4
+                      text-sm
+                      font-semibold
+                      text-white/75
+                      transition
+                      hover:border-[#D4AF37]/50
+                      hover:text-[#D4AF37]
+                    "
+                  >
+                    <ShoppingCart size={17} aria-hidden="true" />
+                    Cart
+
+                    {totalItems > 0 && (
+                      <span
+                        className="
+                          absolute
+                          right-3
+                          top-2
+                          grid
+                          min-h-5
+                          min-w-5
+                          place-items-center
+                          rounded-full
+                          bg-[#D4AF37]
+                          px-1
+                          text-[9px]
+                          font-bold
+                          text-black
+                        "
+                      >
+                        {totalItems > 99 ? "99+" : totalItems}
+                      </span>
+                    )}
+                  </Link>
+                </div>
+
+                {/* WhatsApp CTA */}
                 <a
                   href="https://wa.me/923352484936"
                   target="_blank"
                   rel="noreferrer"
                   className="
+                    mt-3
                     flex
-                    min-h-12
+                    min-h-14
                     items-center
                     justify-center
                     gap-3
-                    rounded-md
+                    rounded-xl
                     bg-[#D4AF37]
+                    px-5
                     text-sm
-                    font-semibold
+                    font-bold
+                    uppercase
+                    tracking-[0.08em]
                     text-black
+                    shadow-[0_16px_45px_rgba(212,175,55,0.18)]
+                    transition
+                    duration-300
+                    active:scale-[0.99]
                   "
                 >
-                  <MessageCircle size={18} aria-hidden="true" />
-                  WhatsApp Us
+                  <MessageCircle size={19} aria-hidden="true" />
+                  WhatsApp Consultation
                 </a>
-              </div>
-            </nav>
-          </motion.div>
+
+                {/* Footer */}
+                <div className="mt-6 border-t border-white/5 pt-5 text-center">
+                  <p className="font-serif text-lg text-white/75">
+                    Citizen Jewellers
+                  </p>
+
+                  <p className="mt-1 text-[9px] uppercase tracking-[0.26em] text-[#D4AF37]/70">
+                    By Lakhani Sons · Since 1963
+                  </p>
+                </div>
+              </nav>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </header>
   );
 }
 
-export default Navbar;                            
+export default Navbar;
