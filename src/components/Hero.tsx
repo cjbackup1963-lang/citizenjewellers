@@ -18,10 +18,10 @@ function Hero() {
         md:min-h-[calc(100svh-92px)]
       "
     >
-      {/* Desktop Background */}
+      {/* ================= DESKTOP BACKGROUND ================= */}
       <div className="absolute inset-0 -z-30 hidden md:block">
         <img
-          src="/images/luxury/hero/mobile-hero-banner.png?v=10"
+          src="/images/luxury/hero/mobile-hero-banner.png?v=20"
           alt="Citizen Jewellers premium jewellery collection"
           loading="eager"
           fetchPriority="high"
@@ -35,40 +35,47 @@ function Hero() {
         />
       </div>
 
-      {/* MOBILE BACKGROUND */}
+      {/* ================= MOBILE BACKGROUND ================= */}
       <div
         className="
           absolute
           inset-0
           -z-30
+          overflow-hidden
+          bg-black
           md:hidden
         "
       >
         <img
-          src="/images/luxury/hero/mobile-hero-clean.webp"
-          alt="Premium 21K gold jewellery"
+          src="/images/luxury/hero/mobile-hero-banner.png?v=12"
+          alt="Citizen Jewellers premium jewellery"
           loading="eager"
           fetchPriority="high"
           decoding="async"
           className="
+            absolute
+            left-1/2
+            top-1/2
             h-full
             w-full
-            object-cover
-            object-[68%_center]
+            -translate-x-1/2
+            -translate-y-1/2
+            object-contain
+            object-center
           "
         />
       </div>
 
-      {/* Mobile Overlay */}
+      {/* ================= MOBILE OVERLAYS ================= */}
       <div
         className="
           absolute
           inset-0
           -z-20
           bg-gradient-to-r
-          from-black
-          via-black/80
-          to-black/15
+          from-black/95
+          via-black/60
+          to-black/10
           md:hidden
         "
       />
@@ -80,14 +87,23 @@ function Hero() {
           -z-20
           bg-gradient-to-t
           from-black
-          via-black/10
-          to-black/25
+          via-transparent
+          to-black/35
           md:hidden
         "
       />
 
-      {/* Desktop overlays */}
-      <div className="absolute inset-0 -z-20 hidden bg-black/35 md:block" />
+      {/* ================= DESKTOP OVERLAYS ================= */}
+      <div
+        className="
+          absolute
+          inset-0
+          -z-20
+          hidden
+          bg-black/35
+          md:block
+        "
+      />
 
       <div
         className="
@@ -117,7 +133,7 @@ function Hero() {
         "
       />
 
-      {/* Glow */}
+      {/* ================= GOLD GLOW ================= */}
       <div
         className="
           pointer-events-none
@@ -136,45 +152,55 @@ function Hero() {
         "
       />
 
-      {/* Main Content */}
+      {/* ================= MAIN CONTENT ================= */}
       <div
         className="
           mx-auto
           flex
-          min-h-[730px]
+          min-h-[720px]
           max-w-[1520px]
           items-center
           px-5
           pb-10
-          pt-16
+          pt-14
+
           sm:min-h-[760px]
           sm:px-7
+
           md:grid
           md:min-h-[calc(100svh-92px)]
           md:px-8
           md:py-20
+
           lg:grid-cols-[0.95fr_1.05fr]
           lg:px-10
+
           xl:px-14
         "
       >
         <motion.div
           initial={{ opacity: 0, x: -28 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          transition={{
+            duration: 0.8,
+            ease: "easeOut",
+          }}
           className="
             relative
             z-10
             w-full
-            max-w-[360px]
+            max-w-[350px]
             md:max-w-3xl
           "
         >
-          {/* Heritage Label */}
+          {/* ================= HERITAGE ================= */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.12, duration: 0.6 }}
+            transition={{
+              delay: 0.12,
+              duration: 0.6,
+            }}
             className="
               mb-5
               inline-flex
@@ -186,9 +212,11 @@ function Hero() {
               text-[9px]
               font-semibold
               uppercase
-              tracking-[0.28em]
+              tracking-[0.26em]
               text-[#D4AF37]
+
               sm:text-[10px]
+
               md:mb-6
               md:gap-3
               md:border-l-2
@@ -202,26 +230,32 @@ function Hero() {
             By Lakhani Sons · Since 1963
           </motion.div>
 
-          {/* Heading */}
+          {/* ================= HEADING ================= */}
           <h1
             className="
-              max-w-[335px]
+              max-w-[330px]
               font-serif
-              text-[3.15rem]
-              leading-[0.96]
+              text-[3rem]
+              leading-[0.98]
               tracking-[-0.025em]
               text-white
-              sm:max-w-[380px]
+
+              sm:max-w-[390px]
               sm:text-[3.6rem]
+
               md:max-w-3xl
               md:text-7xl
               md:leading-[0.98]
+
               lg:text-[5rem]
+
               xl:text-[5.8rem]
             "
           >
             Timeless
-            <span className="block">Jewellery</span>
+            <span className="block">
+              Jewellery
+            </span>
 
             <span
               className="
@@ -231,11 +265,13 @@ function Hero() {
               "
             >
               Crafted
-              <span className="block">with Legacy</span>
+              <span className="block">
+                with Legacy
+              </span>
             </span>
           </h1>
 
-          {/* Divider */}
+          {/* ================= DIVIDER ================= */}
           <div
             className="
               mt-6
@@ -244,20 +280,24 @@ function Hero() {
               bg-gradient-to-r
               from-[#D4AF37]
               to-transparent
+
               md:mt-7
               md:w-28
             "
           />
 
-          {/* Description */}
+          {/* ================= DESCRIPTION ================= */}
           <p
             className="
               mt-6
-              max-w-[300px]
-              text-[15px]
+              max-w-[285px]
+              text-[14px]
               leading-7
-              text-white/72
+              text-white/70
+
               sm:max-w-[330px]
+              sm:text-[15px]
+
               md:mt-7
               md:max-w-2xl
               md:text-lg
@@ -269,7 +309,7 @@ function Hero() {
             trust, precision and refined craftsmanship.
           </p>
 
-          {/* CTA */}
+          {/* ================= CTA ================= */}
           <a
             href="#collections"
             className="
@@ -283,18 +323,21 @@ function Hero() {
               rounded-lg
               border
               border-[#D4AF37]
-              bg-black/55
+              bg-black/50
               px-6
-              text-[13px]
+              text-[12px]
               font-bold
               uppercase
-              tracking-[0.08em]
+              tracking-[0.1em]
               text-[#D4AF37]
               backdrop-blur-md
+
               transition
               duration-300
+
               hover:bg-[#D4AF37]
               hover:text-black
+
               md:mt-9
               md:px-8
               md:text-sm
@@ -313,7 +356,7 @@ function Hero() {
             />
           </a>
 
-          {/* Mobile Trust Strip */}
+          {/* ================= MOBILE TRUST STRIP ================= */}
           <div
             className="
               mt-9
@@ -327,9 +370,18 @@ function Hero() {
               md:hidden
             "
           >
-            <div className="flex flex-col items-center px-2 text-center">
+            {/* 21K */}
+            <div
+              className="
+                flex
+                flex-col
+                items-center
+                px-1
+                text-center
+              "
+            >
               <Gem
-                size={22}
+                size={21}
                 className="text-[#D4AF37]"
                 aria-hidden="true"
               />
@@ -337,53 +389,7 @@ function Hero() {
               <p
                 className="
                   mt-2
-                  text-[10px]
-                  font-medium
-                  uppercase
-                  leading-4
-                  tracking-[0.08em]
-                  text-white/75
-                "
-              >
-                21K Pure
-                <span className="block">Gold</span>
-              </p>
-            </div>
-
-            <div className="flex flex-col items-center px-2 text-center">
-              <ShieldCheck
-                size={22}
-                className="text-[#D4AF37]"
-                aria-hidden="true"
-              />
-
-              <p
-                className="
-                  mt-2
-                  text-[10px]
-                  font-medium
-                  uppercase
-                  leading-4
-                  tracking-[0.08em]
-                  text-white/75
-                "
-              >
-                Trusted
-                <span className="block">Since 1963</span>
-              </p>
-            </div>
-
-            <div className="flex flex-col items-center px-2 text-center">
-              <Sparkles
-                size={22}
-                className="text-[#D4AF37]"
-                aria-hidden="true"
-              />
-
-              <p
-                className="
-                  mt-2
-                  text-[10px]
+                  text-[9px]
                   font-medium
                   uppercase
                   leading-4
@@ -392,12 +398,82 @@ function Hero() {
                 "
               >
                 Premium
-                <span className="block">Craft</span>
+                <span className="block">
+                  21K Gold
+                </span>
+              </p>
+            </div>
+
+            {/* TRUST */}
+            <div
+              className="
+                flex
+                flex-col
+                items-center
+                px-1
+                text-center
+              "
+            >
+              <ShieldCheck
+                size={21}
+                className="text-[#D4AF37]"
+                aria-hidden="true"
+              />
+
+              <p
+                className="
+                  mt-2
+                  text-[9px]
+                  font-medium
+                  uppercase
+                  leading-4
+                  tracking-[0.08em]
+                  text-white/75
+                "
+              >
+                Trusted
+                <span className="block">
+                  Since 1963
+                </span>
+              </p>
+            </div>
+
+            {/* CRAFT */}
+            <div
+              className="
+                flex
+                flex-col
+                items-center
+                px-1
+                text-center
+              "
+            >
+              <Sparkles
+                size={21}
+                className="text-[#D4AF37]"
+                aria-hidden="true"
+              />
+
+              <p
+                className="
+                  mt-2
+                  text-[9px]
+                  font-medium
+                  uppercase
+                  leading-4
+                  tracking-[0.08em]
+                  text-white/75
+                "
+              >
+                Refined
+                <span className="block">
+                  Craftsmanship
+                </span>
               </p>
             </div>
           </div>
 
-          {/* Desktop Trust Details */}
+          {/* ================= DESKTOP TRUST ================= */}
           <div
             className="
               mt-11
@@ -405,7 +481,7 @@ function Hero() {
               max-w-3xl
               gap-3
               md:grid
-              sm:grid-cols-3
+              md:grid-cols-3
             "
           >
             <div
@@ -491,11 +567,11 @@ function Hero() {
           </div>
         </motion.div>
 
-        {/* Desktop right visual area */}
+        {/* Desktop right side */}
         <div className="hidden min-h-[520px] lg:block" />
       </div>
 
-      {/* Desktop Scroll Prompt */}
+      {/* ================= DESKTOP SCROLL ================= */}
       <a
         href="#collections"
         aria-label="Scroll to collections"
@@ -518,7 +594,15 @@ function Hero() {
       >
         Explore
 
-        <span className="h-10 w-px bg-gradient-to-b from-[#D4AF37] to-transparent" />
+        <span
+          className="
+            h-10
+            w-px
+            bg-gradient-to-b
+            from-[#D4AF37]
+            to-transparent
+          "
+        />
       </a>
     </section>
   );
