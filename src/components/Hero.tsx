@@ -21,7 +21,7 @@ function Hero() {
       {/* Desktop Background */}
       <div className="absolute inset-0 -z-30 hidden md:block">
         <img
-          src="/images/luxury/offers/offer-banner.webp"
+          src="/images/luxury/hero/mobile-hero-banner.png?v=10"
           alt="Citizen Jewellers premium jewellery collection"
           loading="eager"
           fetchPriority="high"
