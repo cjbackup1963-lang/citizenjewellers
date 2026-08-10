@@ -9,6 +9,7 @@ import FeatureStrip from "./components/FeatureStrip";
 import Collections from "./components/Collections";
 import FeaturedJewellery from "./components/FeaturedJewellery";
 import LiveRates from "./components/LiveRates";
+import GoldServices from "./components/GoldServices";
 import ProductCatalog from "./components/ProductCatalog";
 import About from "./components/About";
 import Services from "./components/Services";
@@ -19,9 +20,16 @@ import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import FloatingWhatsApp from "./components/FloatingWhatsApp";
 
+/* ================= LAZY PAGES ================= */
+
 const ProductDetails = lazy(() => import("./pages/ProductDetails"));
 const Cart = lazy(() => import("./pages/Cart"));
 const Checkout = lazy(() => import("./pages/Checkout"));
+const SellGold = lazy(() => import("./pages/SellGold"));
+const Appraisal = lazy(() => import("./pages/Appraisal"));
+const ZakatCalculator = lazy(() => import("./pages/ZakatCalculator"));
+
+/* ================= HOME PAGE ================= */
 
 function HomePage() {
   return (
@@ -35,6 +43,8 @@ function HomePage() {
       <FeaturedJewellery />
 
       <LiveRates />
+
+      <GoldServices />
 
       <ProductCatalog />
 
@@ -53,6 +63,8 @@ function HomePage() {
   );
 }
 
+/* ================= ROUTE EFFECTS ================= */
+
 function RouteEffects() {
   const location = useLocation();
 
@@ -61,6 +73,7 @@ function RouteEffects() {
       window.setTimeout(() => {
         document.querySelector(location.hash)?.scrollIntoView({
           behavior: "smooth",
+          block: "start",
         });
       }, 0);
     } else {
@@ -74,23 +87,25 @@ function RouteEffects() {
   return null;
 }
 
+/* ================= PAGE FALLBACK ================= */
+
 function PageFallback() {
   return (
-    <div className="grid min-h-[60vh] place-items-center bg-black">
+    <div className="grid min-h-[70vh] place-items-center bg-black">
       <div className="text-center">
-        <div className="mx-auto mb-5 h-12 w-12 animate-spin rounded-full border-2 border-[#D4AF37] border-t-transparent" />
-
-        <p className="tracking-[0.35em] text-[#D4AF37]">
-          LOADING
+        <p className="text-sm font-semibold uppercase tracking-[0.35em] text-[#D4AF37]">
+          Loading
         </p>
       </div>
     </div>
   );
 }
 
+/* ================= APP ================= */
+
 function App() {
   return (
-    <div className="min-h-screen overflow-x-hidden bg-black">
+    <div className="min-h-screen bg-black">
       <RouteEffects />
 
       <Navbar />
@@ -100,21 +115,53 @@ function App() {
       <main>
         <Suspense fallback={<PageFallback />}>
           <Routes>
-            <Route path="/" element={<HomePage />} />
+            {/* HOME */}
+            <Route
+              path="/"
+              element={<HomePage />}
+            />
 
+            {/* PRODUCT DETAILS */}
             <Route
               path="/product/:id"
               element={<ProductDetails />}
             />
 
-            <Route path="/cart" element={<Cart />} />
+            {/* CART */}
+            <Route
+              path="/cart"
+              element={<Cart />}
+            />
 
+            {/* CHECKOUT */}
             <Route
               path="/checkout"
               element={<Checkout />}
             />
 
-            <Route path="*" element={<HomePage />} />
+            {/* SELL GOLD */}
+            <Route
+              path="/sell-gold"
+              element={<SellGold />}
+            />
+
+            {/* JEWELLERY APPRAISAL */}
+            <Route
+              path="/appraisal"
+              element={<Appraisal />}
+            />
+
+            {/* ZAKAT CALCULATOR */}
+            <Route
+              path="/zakat-calculator"
+              element={<ZakatCalculator />}
+            />
+
+            {/* FALLBACK */}
+            <Route
+              path="*"
+              element={<HomePage />}
+            />
           </Routes>
         </Suspense>
       </main>

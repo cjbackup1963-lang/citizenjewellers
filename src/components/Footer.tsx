@@ -188,36 +188,38 @@ function Footer() {
                 </svg>
               </a>
 
-              {/* Facebook */}
-              <a
-                href="#"
-                aria-label="Citizen Jewellers Facebook"
-                className="
-                  flex
-                  h-11
-                  w-11
-                  items-center
-                  justify-center
-                  rounded-full
-                  border
-                  border-[#D4AF37]/30
-                  text-[#D4AF37]
-                  transition
-                  duration-300
-                  hover:-translate-y-1
-                  hover:bg-[#D4AF37]
-                  hover:text-black
-                "
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  className="h-5 w-5"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path d="M13.6 21v-8h2.8l.4-3h-3.2V8.1c0-.9.3-1.5 1.6-1.5H17V3.9c-.3 0-1.4-.1-2.6-.1-2.6 0-4.4 1.6-4.4 4.6V10H7v3h3v8h3.6Z" />
-                </svg>
-              </a>
+             {/* Facebook */}
+<a
+  href="https://www.facebook.com/citizenjewellers/"
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="Citizen Jewellers Facebook"
+  className="
+    flex
+    h-11
+    w-11
+    items-center
+    justify-center
+    rounded-full
+    border
+    border-[#D4AF37]/30
+    text-[#D4AF37]
+    transition
+    duration-300
+    hover:-translate-y-1
+    hover:bg-[#D4AF37]
+    hover:text-black
+  "
+>
+  <svg
+    viewBox="0 0 24 24"
+    className="h-5 w-5"
+    fill="currentColor"
+    aria-hidden="true"
+  >
+    <path d="M13.6 21v-8h2.8l.4-3h-3.2V8.1c0-.9.3-1.5 1.6-1.5H17V3.9c-.3 0-1.4-.1-2.6-.1-2.6 0-4.4 1.6-4.4 4.6V10H7v3h3v8h3.6Z" />
+  </svg>
+</a>
 
               {/* WhatsApp */}
               <a

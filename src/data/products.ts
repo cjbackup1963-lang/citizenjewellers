@@ -18,7 +18,7 @@ export interface Product {
 export const products: Product[] = [
   {
     id: "royal-diamond-necklace",
-    name: "Royal Diamond Gold Necklace",
+    name:"Royal Diamond Gold Jewellery",
     category: "Bridal Jewellery",
     price: 850000,
     purity: "21K Gold",
@@ -56,8 +56,8 @@ export const products: Product[] = [
   },
 
   {
-    id: "emerald-bridal-set",
-    name: "Emerald Bridal Jewellery Set",
+    id: "Bridal Jewellery Set",
+    name: "Bridal Jewellery Set",
     category: "Luxury Collection",
     price: 1250000,
     purity: "21K Gold",
@@ -77,7 +77,7 @@ export const products: Product[] = [
 
   {
     id: "mens-signature-ring",
-    name: "Men's Signature Silver Ring",
+    name: "Men's Signature Silver Collection",
     category: "Men's Collection",
     price: 185000,
     purity: "925 Silver",

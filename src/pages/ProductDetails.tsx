@@ -181,13 +181,17 @@ Please share the current price and availability.`
 
   const showPreviousImage = () => {
     setSelectedImage((current) =>
-      current === 0 ? product.images.length - 1 : current - 1
+      current === 0
+        ? product.images.length - 1
+        : current - 1
     );
   };
 
   const showNextImage = () => {
     setSelectedImage((current) =>
-      current === product.images.length - 1 ? 0 : current + 1
+      current === product.images.length - 1
+        ? 0
+        : current + 1
     );
   };
 
@@ -258,7 +262,10 @@ Please share the current price and availability.`
           <motion.div
             initial={{ opacity: 0, x: -28 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, ease: "easeOut" }}
+            transition={{
+              duration: 0.7,
+              ease: "easeOut",
+            }}
           >
             <div
               className="
@@ -445,7 +452,10 @@ Please share the current price and availability.`
               "
             >
               <div className="flex items-center gap-3">
-                <ShieldCheck size={19} className="text-[#D4AF37]" />
+                <ShieldCheck
+                  size={19}
+                  className="text-[#D4AF37]"
+                />
 
                 <span className="text-xs text-white/55">
                   Purity Assurance
@@ -453,7 +463,10 @@ Please share the current price and availability.`
               </div>
 
               <div className="flex items-center gap-3">
-                <Sparkles size={19} className="text-[#D4AF37]" />
+                <Sparkles
+                  size={19}
+                  className="text-[#D4AF37]"
+                />
 
                 <span className="text-xs text-white/55">
                   Premium Finishing
@@ -461,7 +474,10 @@ Please share the current price and availability.`
               </div>
 
               <div className="flex items-center gap-3">
-                <ShoppingBag size={19} className="text-[#D4AF37]" />
+                <ShoppingBag
+                  size={19}
+                  className="text-[#D4AF37]"
+                />
 
                 <span className="text-xs text-white/55">
                   Luxury Packaging
@@ -511,7 +527,10 @@ Please share the current price and availability.`
             <div className="mt-5 flex flex-wrap items-center gap-4">
               <div className="flex items-center gap-1 text-[#D4AF37]">
                 {Array.from({
-                  length: Math.max(1, Math.min(product.rating, 5)),
+                  length: Math.max(
+                    1,
+                    Math.min(product.rating, 5)
+                  ),
                 }).map((_, index) => (
                   <Star
                     key={index}
@@ -632,7 +651,7 @@ Please share the current price and availability.`
                 </p>
 
                 <p className="mt-1 text-xs text-white/35">
-                  Maximum 10 pieces per order
+                  Minimum 1 piece per order
                 </p>
               </div>
 
@@ -640,8 +659,11 @@ Please share the current price and availability.`
                 <button
                   type="button"
                   onClick={() =>
-                    setQuantity((current) => Math.max(1, current - 1))
+                    setQuantity((current) =>
+                      Math.max(1, current - 1)
+                    )
                   }
+                  disabled={quantity <= 1}
                   aria-label="Decrease quantity"
                   className="
                     grid
@@ -655,6 +677,10 @@ Please share the current price and availability.`
                     transition
                     hover:bg-[#D4AF37]
                     hover:text-black
+                    disabled:cursor-not-allowed
+                    disabled:opacity-30
+                    disabled:hover:bg-transparent
+                    disabled:hover:text-[#D4AF37]
                   "
                 >
                   <Minus size={17} />
@@ -675,7 +701,7 @@ Please share the current price and availability.`
                 <button
                   type="button"
                   onClick={() =>
-                    setQuantity((current) => Math.min(10, current + 1))
+                    setQuantity((current) => current + 1)
                   }
                   aria-label="Increase quantity"
                   className="
@@ -791,7 +817,9 @@ Please share the current price and availability.`
 
             <button
               type="button"
-              onClick={() => setWishlisted((current) => !current)}
+              onClick={() =>
+                setWishlisted((current) => !current)
+              }
               aria-label={
                 wishlisted
                   ? "Remove from wishlist"
@@ -850,8 +878,7 @@ Please share the current price and availability.`
               />
 
               Citizen Jewellers products are professionally evaluated and
-              presented with transparent consultation and after-sales
-              guidance.
+              presented with transparent consultation and after-sales guidance.
             </div>
           </motion.div>
         </div>

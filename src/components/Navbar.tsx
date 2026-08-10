@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
+  Calculator,
   Menu,
   MessageCircle,
   Search,
@@ -12,14 +13,53 @@ import { Link, useLocation } from "react-router-dom";
 
 import { useCart } from "../context/CartContext";
 
-const menu = [
-  { name: "Home", id: "home" },
-  { name: "Collections", id: "collections" },
-  { name: "Gold Rates", id: "rates" },
-  { name: "About Us", id: "about" },
-  { name: "Services", id: "services" },
-  { name: "Gallery", id: "gallery" },
-  { name: "Contact Us", id: "contact" },
+interface MenuItem {
+  name: string;
+  id?: string;
+  path?: string;
+}
+
+const menu: MenuItem[] = [
+  {
+    name: "Home",
+    id: "home",
+  },
+  {
+    name: "Collections",
+    id: "collections",
+  },
+  {
+    name: "Gold Rates",
+    id: "rates",
+  },
+  {
+    name: "Sell Gold",
+    path: "/sell-gold",
+  },
+  {
+    name: "Appraisal",
+    path: "/appraisal",
+  },
+  {
+    name: "Zakat Calculator",
+    path: "/zakat-calculator",
+  },
+  {
+    name: "About Us",
+    id: "about",
+  },
+  {
+    name: "Services",
+    id: "services",
+  },
+  {
+    name: "Gallery",
+    id: "gallery",
+  },
+  {
+    name: "Contact Us",
+    id: "contact",
+  },
 ];
 
 function Navbar() {
@@ -59,13 +99,17 @@ function Navbar() {
     };
   }, [open]);
 
-  const handleNavigation = (id: string) => {
+  const handleNavigation = (item: MenuItem) => {
     setOpen(false);
     setSearchOpen(false);
 
+    if (!item.id) {
+      return;
+    }
+
     if (location.pathname === "/") {
       window.setTimeout(() => {
-        document.getElementById(id)?.scrollIntoView({
+        document.getElementById(item.id!)?.scrollIntoView({
           behavior: "smooth",
           block: "start",
         });
@@ -73,9 +117,16 @@ function Navbar() {
     }
   };
 
+  const getMenuPath = (item: MenuItem) => {
+    if (item.path) {
+      return item.path;
+    }
+
+    return `/#${item.id}`;
+  };
+
   return (
     <header className="sticky top-0 z-50">
-      {/* Main Navbar */}
       <div
         className={`
           relative
@@ -89,7 +140,6 @@ function Navbar() {
           }
         `}
       >
-        {/* Mobile subtle gold line */}
         <div
           className="
             pointer-events-none
@@ -121,7 +171,6 @@ function Navbar() {
             xl:min-h-[92px]
           "
         >
-          {/* Logo */}
           <Link
             to="/"
             aria-label="Citizen Jewellers home"
@@ -151,7 +200,6 @@ function Navbar() {
                 transition-transform
                 duration-500
                 hover:scale-[1.025]
-                xs:max-w-[205px]
                 sm:h-[62px]
                 sm:max-w-[235px]
                 md:max-w-[255px]
@@ -161,37 +209,38 @@ function Navbar() {
             />
           </Link>
 
-          {/* Desktop Navigation */}
+          {/* DESKTOP NAV */}
           <nav
             className="
               hidden
               flex-1
               items-center
               justify-center
-              gap-5
+              gap-3
               xl:flex
-              2xl:gap-7
+              2xl:gap-5
             "
             aria-label="Main navigation"
           >
             {menu.map((item) => (
               <Link
-                key={item.id}
-                to={`/#${item.id}`}
-                onClick={() => handleNavigation(item.id)}
+                key={item.name}
+                to={getMenuPath(item)}
+                onClick={() => handleNavigation(item)}
                 className="
                   group
                   relative
                   whitespace-nowrap
                   py-8
-                  text-[13px]
+                  text-[11px]
                   font-medium
                   uppercase
-                  tracking-[0.08em]
+                  tracking-[0.06em]
                   text-white/80
                   transition
                   duration-300
                   hover:text-[#D4AF37]
+                  2xl:text-[12px]
                 "
               >
                 {item.name}
@@ -214,9 +263,8 @@ function Navbar() {
             ))}
           </nav>
 
-          {/* Right Actions */}
+          {/* RIGHT ACTIONS */}
           <div className="relative z-10 flex shrink-0 items-center gap-1.5 sm:gap-2">
-            {/* Desktop Search */}
             <button
               type="button"
               onClick={() => setSearchOpen((value) => !value)}
@@ -240,7 +288,6 @@ function Navbar() {
               <Search size={21} aria-hidden="true" />
             </button>
 
-            {/* Account */}
             <Link
               to="/account"
               className="
@@ -262,7 +309,6 @@ function Navbar() {
               <UserRound size={21} aria-hidden="true" />
             </Link>
 
-            {/* Cart */}
             <Link
               to="/cart"
               className="
@@ -315,7 +361,6 @@ function Navbar() {
               )}
             </Link>
 
-            {/* Desktop WhatsApp */}
             <a
               href="https://wa.me/923352484936"
               target="_blank"
@@ -348,7 +393,6 @@ function Navbar() {
               WhatsApp Us
             </a>
 
-            {/* Mobile Menu Button */}
             <button
               type="button"
               onClick={() => setOpen((value) => !value)}
@@ -378,7 +422,7 @@ function Navbar() {
           </div>
         </div>
 
-        {/* Desktop Search Bar */}
+        {/* DESKTOP SEARCH */}
         <AnimatePresence initial={false}>
           {searchOpen && (
             <motion.div
@@ -428,7 +472,7 @@ function Navbar() {
 
                   <input
                     type="search"
-                    placeholder="Search necklaces, rings, bangles, gold biscuits..."
+                    placeholder="Search necklaces, rings, bangles..."
                     className="
                       min-h-12
                       w-full
@@ -456,11 +500,10 @@ function Navbar() {
         </AnimatePresence>
       </div>
 
-      {/* Premium Mobile Drawer */}
+      {/* MOBILE DRAWER */}
       <AnimatePresence initial={false}>
         {open && (
           <>
-            {/* Backdrop */}
             <motion.button
               type="button"
               aria-label="Close navigation"
@@ -481,7 +524,6 @@ function Navbar() {
               "
             />
 
-            {/* Drawer */}
             <motion.div
               initial={{
                 opacity: 0,
@@ -516,7 +558,6 @@ function Navbar() {
                 xl:hidden
               "
             >
-              {/* Decorative glow */}
               <div
                 className="
                   pointer-events-none
@@ -546,7 +587,6 @@ function Navbar() {
                 "
                 aria-label="Mobile navigation"
               >
-                {/* Search */}
                 <div
                   className="
                     mb-5
@@ -582,31 +622,49 @@ function Navbar() {
                   />
                 </div>
 
-                {/* Menu Label */}
                 <div className="mb-2 flex items-center justify-between">
-                  <p className="text-[10px] uppercase tracking-[0.32em] text-[#D4AF37]">
+                  <p
+                    className="
+                      text-[10px]
+                      uppercase
+                      tracking-[0.32em]
+                      text-[#D4AF37]
+                    "
+                  >
                     Explore
                   </p>
 
-                  <p className="text-[10px] uppercase tracking-[0.18em] text-white/25">
+                  <p
+                    className="
+                      text-[10px]
+                      uppercase
+                      tracking-[0.18em]
+                      text-white/25
+                    "
+                  >
                     Since 1963
                   </p>
                 </div>
 
-                {/* Menu Links */}
                 <div className="divide-y divide-white/5">
                   {menu.map((item, index) => (
                     <motion.div
-                      key={item.id}
-                      initial={{ opacity: 0, x: -14 }}
-                      animate={{ opacity: 1, x: 0 }}
+                      key={item.name}
+                      initial={{
+                        opacity: 0,
+                        x: -14,
+                      }}
+                      animate={{
+                        opacity: 1,
+                        x: 0,
+                      }}
                       transition={{
                         delay: 0.04 + index * 0.035,
                       }}
                     >
                       <Link
-                        to={`/#${item.id}`}
-                        onClick={() => handleNavigation(item.id)}
+                        to={getMenuPath(item)}
+                        onClick={() => handleNavigation(item)}
                         className="
                           group
                           flex
@@ -644,8 +702,100 @@ function Navbar() {
                   ))}
                 </div>
 
-                {/* Utility Actions */}
-                <div className="mt-6 grid grid-cols-2 gap-3">
+                {/* PREMIUM QUICK ACTIONS */}
+                <Link
+                  to="/sell-gold"
+                  onClick={() => setOpen(false)}
+                  className="
+                    mt-5
+                    flex
+                    min-h-14
+                    items-center
+                    justify-between
+                    gap-4
+                    rounded-xl
+                    border
+                    border-[#D4AF37]/35
+                    bg-[#D4AF37]/[0.05]
+                    px-5
+                    text-sm
+                    font-semibold
+                    uppercase
+                    tracking-[0.08em]
+                    text-[#D4AF37]
+                    transition
+                    hover:border-[#D4AF37]/70
+                    hover:bg-[#D4AF37]
+                    hover:text-black
+                  "
+                >
+                  Sell Your Gold
+                  <span>→</span>
+                </Link>
+
+                <Link
+                  to="/appraisal"
+                  onClick={() => setOpen(false)}
+                  className="
+                    mt-3
+                    flex
+                    min-h-14
+                    items-center
+                    justify-between
+                    gap-4
+                    rounded-xl
+                    border
+                    border-white/10
+                    bg-white/[0.02]
+                    px-5
+                    text-sm
+                    font-semibold
+                    uppercase
+                    tracking-[0.08em]
+                    text-white/75
+                    transition
+                    hover:border-[#D4AF37]/50
+                    hover:text-[#D4AF37]
+                  "
+                >
+                  Jewellery Appraisal
+                  <span>→</span>
+                </Link>
+
+                <Link
+                  to="/zakat-calculator"
+                  onClick={() => setOpen(false)}
+                  className="
+                    mt-3
+                    flex
+                    min-h-14
+                    items-center
+                    justify-between
+                    gap-4
+                    rounded-xl
+                    border
+                    border-[#D4AF37]/20
+                    bg-black/35
+                    px-5
+                    text-sm
+                    font-semibold
+                    uppercase
+                    tracking-[0.08em]
+                    text-[#D4AF37]
+                    transition
+                    hover:border-[#D4AF37]/60
+                    hover:bg-[#D4AF37]/10
+                  "
+                >
+                  <span className="flex items-center gap-2">
+                    <Calculator size={17} />
+                    Zakat Calculator
+                  </span>
+
+                  <span>→</span>
+                </Link>
+
+                <div className="mt-5 grid grid-cols-2 gap-3">
                   <Link
                     to="/account"
                     onClick={() => setOpen(false)}
@@ -722,7 +872,6 @@ function Navbar() {
                   </Link>
                 </div>
 
-                {/* WhatsApp CTA */}
                 <a
                   href="https://wa.me/923352484936"
                   target="_blank"
@@ -752,13 +901,20 @@ function Navbar() {
                   WhatsApp Consultation
                 </a>
 
-                {/* Footer */}
                 <div className="mt-6 border-t border-white/5 pt-5 text-center">
                   <p className="font-serif text-lg text-white/75">
                     Citizen Jewellers
                   </p>
 
-                  <p className="mt-1 text-[9px] uppercase tracking-[0.26em] text-[#D4AF37]/70">
+                  <p
+                    className="
+                      mt-1
+                      text-[9px]
+                      uppercase
+                      tracking-[0.26em]
+                      text-[#D4AF37]/70
+                    "
+                  >
                     By Lakhani Sons · Since 1963
                   </p>
                 </div>
