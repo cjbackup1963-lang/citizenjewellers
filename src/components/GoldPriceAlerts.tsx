@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { trackGoldAlertSignup } from "../services/analytics";
 import {
   BellRing,
   CheckCircle2,
@@ -55,17 +56,20 @@ function GoldPriceAlerts() {
       });
 
       if (!response.ok) {
-        throw new Error(
-          `Form submission failed with status ${response.status}`
-        );
-      }
+  throw new Error(
+    `Form submission failed with status ${response.status}`
+  );
+}
 
-      setSubmitted(true);
-    } catch (submitError) {
-      console.error(
-        "Gold Price Alert submission failed:",
-        submitError
-      );
+/*
+|--------------------------------------------------------------------------
+| Google Analytics - Successful Gold Alert Registration
+|--------------------------------------------------------------------------
+*/
+
+trackGoldAlertSignup(interest);
+
+setSubmitted(true);
 
       setError(
         "We could not submit your request right now. Please try again."

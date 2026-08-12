@@ -45,7 +45,19 @@ export function trackEvent(
 |--------------------------------------------------------------------------
 | WhatsApp Click
 |--------------------------------------------------------------------------
+*//*
+|--------------------------------------------------------------------------
+| Gold Price Alert Signup
+|--------------------------------------------------------------------------
 */
+
+export function trackGoldAlertSignup(
+  interest: string
+) {
+  trackEvent("gold_alert_signup", {
+    interest_type: interest,
+  });
+}
 
 export function trackWhatsAppClick(
   location: string
