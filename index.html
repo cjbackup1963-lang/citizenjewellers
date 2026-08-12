@@ -153,12 +153,55 @@
   </head>
 
   <body>
-    <div id="root"></div>
 
-    <noscript>
-      Citizen Jewellers requires JavaScript to display the website.
-    </noscript>
+  <!-- Netlify Gold Price Alerts Form -->
+  <form
+    name="gold-price-alerts"
+    method="POST"
+    data-netlify="true"
+    netlify-honeypot="bot-field"
+    hidden
+  >
+    <input
+      type="hidden"
+      name="form-name"
+      value="gold-price-alerts"
+    />
 
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+    <input
+      type="text"
+      name="bot-field"
+    />
+
+    <input
+      type="text"
+      name="name"
+    />
+
+    <input
+      type="tel"
+      name="phone"
+    />
+
+    <input
+      type="text"
+      name="interest"
+    />
+
+    <input
+      type="text"
+      name="consent"
+    />
+  </form>
+
+  <!-- React App -->
+  <div id="root"></div>
+
+  <noscript>
+    Citizen Jewellers requires JavaScript to display the website.
+  </noscript>
+
+  <script type="module" src="/src/main.tsx"></script>
+
+</body>
 </html>

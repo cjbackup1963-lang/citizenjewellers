@@ -10,6 +10,7 @@ import Collections from "./components/Collections";
 import FeaturedJewellery from "./components/FeaturedJewellery";
 import LiveRates from "./components/LiveRates";
 import GoldServices from "./components/GoldServices";
+import GoldPriceAlerts from "./components/GoldPriceAlerts";
 import ProductCatalog from "./components/ProductCatalog";
 import About from "./components/About";
 import Services from "./components/Services";
@@ -42,11 +43,13 @@ function HomePage() {
 
       <FeaturedJewellery />
 
-      <LiveRates />
+     <LiveRates />
 
-      <GoldServices />
+<GoldServices />
 
-      <ProductCatalog />
+<GoldPriceAlerts />
+
+<ProductCatalog />
 
       <About />
 
