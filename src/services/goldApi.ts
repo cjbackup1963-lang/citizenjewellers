@@ -18,18 +18,53 @@ export interface GoldRate {
 interface GoldApiResponse {
   price?: number;
   price_gram_24k?: number;
-  price_gram_22k?: number;
-  price_gram_21k?: number;
   timestamp?: number;
+}
+
+interface CachedGoldRate {
+  rate: GoldRate;
+  cachedAt: number;
 }
 
 const TOLA_GRAMS = 11.664;
 
-// Sirf API fail hone ki surat mein use hoga
+/*
+|--------------------------------------------------------------------------
+| Manual fallback rate
+|--------------------------------------------------------------------------
+|
+| Change ONLY this value when GoldAPI quota is unavailable.
+|
+*/
+
 const FALLBACK_24K_TOLA = 431_500;
 
-// API ko maximum 10 seconds denge
+/*
+|--------------------------------------------------------------------------
+| API settings
+|--------------------------------------------------------------------------
+*/
+
 const REQUEST_TIMEOUT_MS = 10_000;
+
+/*
+|--------------------------------------------------------------------------
+| Browser cache
+|--------------------------------------------------------------------------
+|
+| A successful LIVE rate will remain cached for 8 hours.
+|
+*/
+
+const CACHE_DURATION_MS = 8 * 60 * 60 * 1000;
+
+const CACHE_KEY = "citizen_gold_rates_v1";
+
+/*
+|--------------------------------------------------------------------------
+| PKR formatter
+|--------------------------------------------------------------------------
+*/
 
 const formatPKR = (value: number): string => {
   return `PKR ${Math.round(value).toLocaleString("en-PK")}`;
@@ -37,20 +72,29 @@ const formatPKR = (value: number): string => {
 
 /*
 |--------------------------------------------------------------------------
-| Calculate all rates from 24K Tola
+| Calculate everything from 24K
 |--------------------------------------------------------------------------
+|
+| 24K is always the master/base rate.
+|
+| 22K = 24K × 22/24
+| 21K = 24K × 21/24
+|
 */
 
 function calculateFromTola(price24Tola: number) {
   const price24Gram = price24Tola / TOLA_GRAMS;
+
+  const price22Tola = price24Tola * (22 / 24);
+  const price21Tola = price24Tola * (21 / 24);
 
   const price22Gram = price24Gram * (22 / 24);
   const price21Gram = price24Gram * (21 / 24);
 
   return {
     karat24Tola: formatPKR(price24Tola),
-    karat22Tola: formatPKR(price24Tola * (22 / 24)),
-    karat21Tola: formatPKR(price24Tola * (21 / 24)),
+    karat22Tola: formatPKR(price22Tola),
+    karat21Tola: formatPKR(price21Tola),
 
     karat24Gram: formatPKR(price24Gram),
     karat22Gram: formatPKR(price22Gram),
@@ -64,17 +108,8 @@ function calculateFromTola(price24Tola: number) {
 
 /*
 |--------------------------------------------------------------------------
-| Calculate from GoldAPI
+| Convert GoldAPI response
 |--------------------------------------------------------------------------
-|
-| IMPORTANT:
-| We take ONLY the 24K gram price as our base.
-|
-| 22K = 24K × 22/24
-| 21K = 24K × 21/24
-|
-| This prevents inconsistent karat calculations.
-|
 */
 
 function calculateFromApi(payload: GoldApiResponse) {
@@ -92,8 +127,8 @@ function calculateFromApi(payload: GoldApiResponse) {
 
   const tola24 = gram24 * TOLA_GRAMS;
 
-  console.log("🟡 GoldAPI 24K per gram:", gram24);
-  console.log("🟡 Calculated 24K per tola:", tola24);
+  console.log("🟡 GoldAPI 24K / gram:", gram24);
+  console.log("🟡 GoldAPI calculated 24K / tola:", tola24);
 
   return calculateFromTola(tola24);
 }
@@ -106,7 +141,7 @@ function calculateFromApi(payload: GoldApiResponse) {
 
 function getFallbackRates(): GoldRate {
   console.warn(
-    "⚠️ Using fallback 24K gold rate:",
+    "⚠️ GoldAPI unavailable. Using manual fallback:",
     FALLBACK_24K_TOLA
   );
 
@@ -121,30 +156,125 @@ function getFallbackRates(): GoldRate {
 
 /*
 |--------------------------------------------------------------------------
-| Main Gold Rate Function
+| Read browser cache
+|--------------------------------------------------------------------------
+*/
+
+function getCachedRates(): GoldRate | null {
+  try {
+    const stored = localStorage.getItem(CACHE_KEY);
+
+    if (!stored) {
+      return null;
+    }
+
+    const parsed = JSON.parse(stored) as CachedGoldRate;
+
+    if (
+      !parsed ||
+      !parsed.rate ||
+      typeof parsed.cachedAt !== "number"
+    ) {
+      localStorage.removeItem(CACHE_KEY);
+      return null;
+    }
+
+    const age = Date.now() - parsed.cachedAt;
+
+    if (age >= CACHE_DURATION_MS) {
+      console.log("⏰ Gold rate cache expired.");
+
+      localStorage.removeItem(CACHE_KEY);
+
+      return null;
+    }
+
+    console.log(
+      "💾 Using cached LIVE gold rate. Cache age:",
+      Math.round(age / 60_000),
+      "minutes"
+    );
+
+    return parsed.rate;
+  } catch (error) {
+    console.warn(
+      "⚠️ Could not read gold rate cache:",
+      error
+    );
+
+    return null;
+  }
+}
+
+/*
+|--------------------------------------------------------------------------
+| Save successful LIVE rate
+|--------------------------------------------------------------------------
+*/
+
+function saveRatesToCache(rate: GoldRate) {
+  try {
+    const cached: CachedGoldRate = {
+      rate,
+      cachedAt: Date.now(),
+    };
+
+    localStorage.setItem(
+      CACHE_KEY,
+      JSON.stringify(cached)
+    );
+
+    console.log("💾 LIVE gold rate saved to cache.");
+  } catch (error) {
+    console.warn(
+      "⚠️ Could not save gold rate cache:",
+      error
+    );
+  }
+}
+
+/*
+|--------------------------------------------------------------------------
+| Main function
 |--------------------------------------------------------------------------
 */
 
 export async function getGoldRates(): Promise<GoldRate> {
+  /*
+  |--------------------------------------------------------------------------
+  | STEP 1 — Check cache first
+  |--------------------------------------------------------------------------
+  */
+
+  const cachedRates = getCachedRates();
+
+  if (cachedRates) {
+    return cachedRates;
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | STEP 2 — Check API key
+  |--------------------------------------------------------------------------
+  */
+
   const apiKey = import.meta.env.VITE_GOLD_API_KEY as
     | string
     | undefined;
 
-  /*
-  |--------------------------------------------------------------------------
-  | Check Netlify environment variable
-  |--------------------------------------------------------------------------
-  */
-
   if (!apiKey || apiKey.trim() === "") {
     console.error(
-      "❌ VITE_GOLD_API_KEY is NOT available. Check Netlify environment variables."
+      "❌ VITE_GOLD_API_KEY is not available."
     );
 
     return getFallbackRates();
   }
 
-  console.log("✅ Gold API key loaded.");
+  /*
+  |--------------------------------------------------------------------------
+  | STEP 3 — Request GoldAPI
+  |--------------------------------------------------------------------------
+  */
 
   const controller = new AbortController();
 
@@ -153,7 +283,9 @@ export async function getGoldRates(): Promise<GoldRate> {
   }, REQUEST_TIMEOUT_MS);
 
   try {
-    console.log("🔄 Requesting latest XAU/PKR price from GoldAPI...");
+    console.log(
+      "🔄 Requesting fresh XAU/PKR rate from GoldAPI..."
+    );
 
     const response = await fetch(
       "https://www.goldapi.io/api/XAU/PKR",
@@ -167,26 +299,19 @@ export async function getGoldRates(): Promise<GoldRate> {
 
         signal: controller.signal,
 
-        // Avoid browser HTTP caching
         cache: "no-store",
       }
     );
 
-    /*
-    |--------------------------------------------------------------------------
-    | Diagnostic status
-    |--------------------------------------------------------------------------
-    */
-
     console.log(
-      "🌐 GoldAPI HTTP status:",
+      "🌐 GoldAPI status:",
       response.status,
       response.statusText
     );
 
     /*
     |--------------------------------------------------------------------------
-    | API Error
+    | API failure
     |--------------------------------------------------------------------------
     */
 
@@ -196,40 +321,35 @@ export async function getGoldRates(): Promise<GoldRate> {
       try {
         errorBody = await response.text();
       } catch {
-        errorBody = "Unable to read API error response.";
+        errorBody =
+          "Unable to read GoldAPI error response.";
       }
 
       console.error(
-        `❌ GoldAPI request failed. HTTP ${response.status}`,
+        `❌ GoldAPI HTTP ${response.status}`,
         errorBody
       );
 
       throw new Error(
-        `GoldAPI returned HTTP status ${response.status}`
+        `GoldAPI returned HTTP ${response.status}`
       );
     }
 
     /*
     |--------------------------------------------------------------------------
-    | Read response
+    | Read API response
     |--------------------------------------------------------------------------
     */
 
-    const payload = (await response.json()) as GoldApiResponse;
+    const payload =
+      (await response.json()) as GoldApiResponse;
 
-    console.log("✅ GoldAPI response received.");
-
-    /*
-    |--------------------------------------------------------------------------
-    | Calculate 24K → 22K → 21K
-    |--------------------------------------------------------------------------
-    */
-
-    const calculatedRates = calculateFromApi(payload);
+    const calculatedRates =
+      calculateFromApi(payload);
 
     /*
     |--------------------------------------------------------------------------
-    | Timestamp
+    | API timestamp
     |--------------------------------------------------------------------------
     */
 
@@ -243,31 +363,38 @@ export async function getGoldRates(): Promise<GoldRate> {
         payload.timestamp * 1000
       ).toLocaleString("en-PK");
     } else {
-      updatedAt = new Date().toLocaleString("en-PK");
+      updatedAt =
+        new Date().toLocaleString("en-PK");
     }
 
-    console.log("✅ LIVE GOLD RATES ACTIVE");
-
-    return {
+    const liveRates: GoldRate = {
       ...calculatedRates,
 
       updatedAt,
 
       source: "live",
     };
-  } catch (error) {
+
     /*
     |--------------------------------------------------------------------------
-    | Timeout
+    | STEP 4 — Cache ONLY successful LIVE data
     |--------------------------------------------------------------------------
     */
 
+    saveRatesToCache(liveRates);
+
+    console.log(
+      "✅ LIVE GOLD RATES ACTIVE"
+    );
+
+    return liveRates;
+  } catch (error) {
     if (
       error instanceof DOMException &&
       error.name === "AbortError"
     ) {
       console.error(
-        "❌ GoldAPI request timed out after 10 seconds."
+        "❌ GoldAPI request timed out."
       );
     } else {
       console.error(
@@ -278,8 +405,14 @@ export async function getGoldRates(): Promise<GoldRate> {
 
     /*
     |--------------------------------------------------------------------------
-    | Fallback only when live API fails
+    | Never cache fallback
     |--------------------------------------------------------------------------
+    |
+    | This is important.
+    |
+    | When GoldAPI becomes available again, the website
+    | should automatically try the API again.
+    |
     */
 
     return getFallbackRates();
