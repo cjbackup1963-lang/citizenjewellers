@@ -31,7 +31,7 @@ function Hero() {
         "
       >
         <img
-          src="/images/luxury/hero/mobile-hero-banner.png?v=20"
+          src="/images/luxury/hero/mobile-hero-banner.webp?v=1"
           alt="Citizen Jewellers premium jewellery collection"
           width={1080}
           height={1920}

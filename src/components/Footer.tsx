@@ -125,7 +125,7 @@ function Footer() {
               className="inline-block"
             >
               <img
-                src="/images/logo.png"
+                src="/images/logo.webp"
                 alt="Citizen Jewellers by Lakhani Sons"
                 width={240}
                 height={110}

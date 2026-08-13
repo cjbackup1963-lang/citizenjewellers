@@ -186,7 +186,7 @@ function Navbar() {
             }}
           >
             <img
-              src="/images/logo.png?v=4"
+              src="/images/logo.webp?v=1"
               alt="Citizen Jewellers by Lakhani Sons"
               width={330}
               height={110}
