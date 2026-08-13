@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import {
   ArrowRight,
   Gem,
@@ -18,11 +17,24 @@ function Hero() {
         md:min-h-[calc(100svh-92px)]
       "
     >
-      {/* ================= DESKTOP BACKGROUND ================= */}
-      <div className="absolute inset-0 -z-30 hidden md:block">
+      {/* =====================================================
+          SINGLE RESPONSIVE HERO IMAGE
+      ===================================================== */}
+
+      <div
+        className="
+          absolute
+          inset-0
+          -z-30
+          overflow-hidden
+          bg-black
+        "
+      >
         <img
           src="/images/luxury/hero/mobile-hero-banner.png?v=20"
           alt="Citizen Jewellers premium jewellery collection"
+          width={1080}
+          height={1920}
           loading="eager"
           fetchPriority="high"
           decoding="async"
@@ -31,42 +43,17 @@ function Hero() {
             w-full
             object-cover
             object-center
+
+            md:object-cover
+            md:object-center
           "
         />
       </div>
 
-      {/* ================= MOBILE BACKGROUND ================= */}
-      <div
-        className="
-          absolute
-          inset-0
-          -z-30
-          overflow-hidden
-          bg-black
-          md:hidden
-        "
-      >
-        <img
-          src="/images/luxury/hero/mobile-hero-banner.png?v=12"
-          alt="Citizen Jewellers premium jewellery"
-          loading="eager"
-          fetchPriority="high"
-          decoding="async"
-          className="
-            absolute
-            left-1/2
-            top-1/2
-            h-full
-            w-full
-            -translate-x-1/2
-            -translate-y-1/2
-            object-contain
-            object-center
-          "
-        />
-      </div>
+      {/* =====================================================
+          MOBILE OVERLAYS
+      ===================================================== */}
 
-      {/* ================= MOBILE OVERLAYS ================= */}
       <div
         className="
           absolute
@@ -93,7 +80,10 @@ function Hero() {
         "
       />
 
-      {/* ================= DESKTOP OVERLAYS ================= */}
+      {/* =====================================================
+          DESKTOP OVERLAYS
+      ===================================================== */}
+
       <div
         className="
           absolute
@@ -133,7 +123,10 @@ function Hero() {
         "
       />
 
-      {/* ================= GOLD GLOW ================= */}
+      {/* =====================================================
+          SUBTLE GOLD GLOW
+      ===================================================== */}
+
       <div
         className="
           pointer-events-none
@@ -141,18 +134,22 @@ function Hero() {
           -left-28
           top-1/3
           -z-10
-          h-72
-          w-72
+          h-64
+          w-64
           rounded-full
           bg-[#D4AF37]/10
-          blur-[110px]
+          blur-[90px]
+
           md:h-96
           md:w-96
-          md:blur-[140px]
+          md:blur-[130px]
         "
       />
 
-      {/* ================= MAIN CONTENT ================= */}
+      {/* =====================================================
+          MAIN CONTENT
+      ===================================================== */}
+
       <div
         className="
           mx-auto
@@ -178,13 +175,7 @@ function Hero() {
           xl:px-14
         "
       >
-        <motion.div
-          initial={{ opacity: 0, x: -28 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{
-            duration: 0.8,
-            ease: "easeOut",
-          }}
+        <div
           className="
             relative
             z-10
@@ -193,14 +184,11 @@ function Hero() {
             md:max-w-3xl
           "
         >
-          {/* ================= HERITAGE ================= */}
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
-              delay: 0.12,
-              duration: 0.6,
-            }}
+          {/* =================================================
+              HERITAGE
+          ================================================= */}
+
+          <div
             className="
               mb-5
               inline-flex
@@ -225,12 +213,18 @@ function Hero() {
               md:tracking-[0.42em]
             "
           >
-            <ShieldCheck size={14} aria-hidden="true" />
+            <ShieldCheck
+              size={14}
+              aria-hidden="true"
+            />
 
             By Lakhani Sons · Since 1963
-          </motion.div>
+          </div>
 
-          {/* ================= HEADING ================= */}
+          {/* =================================================
+              HEADING
+          ================================================= */}
+
           <h1
             className="
               max-w-[330px]
@@ -253,6 +247,7 @@ function Hero() {
             "
           >
             Timeless
+
             <span className="block">
               Jewellery
             </span>
@@ -265,13 +260,17 @@ function Hero() {
               "
             >
               Crafted
+
               <span className="block">
                 with Legacy
               </span>
             </span>
           </h1>
 
-          {/* ================= DIVIDER ================= */}
+          {/* =================================================
+              DIVIDER
+          ================================================= */}
+
           <div
             className="
               mt-6
@@ -286,7 +285,10 @@ function Hero() {
             "
           />
 
-          {/* ================= DESCRIPTION ================= */}
+          {/* =================================================
+              DESCRIPTION
+          ================================================= */}
+
           <p
             className="
               mt-6
@@ -305,11 +307,15 @@ function Hero() {
               md:text-white/65
             "
           >
-            Premium 21K gold, diamond and gemstone jewellery crafted with
-            trust, precision and refined craftsmanship.
+            Premium 21K gold, diamond and gemstone jewellery
+            crafted with trust, precision and refined
+            craftsmanship.
           </p>
 
-          {/* ================= CTA ================= */}
+          {/* =================================================
+              CTA
+          ================================================= */}
+
           <a
             href="#collections"
             className="
@@ -323,14 +329,13 @@ function Hero() {
               rounded-lg
               border
               border-[#D4AF37]
-              bg-black/50
+              bg-black/55
               px-6
               text-[12px]
               font-bold
               uppercase
               tracking-[0.1em]
               text-[#D4AF37]
-              backdrop-blur-md
 
               transition
               duration-300
@@ -356,7 +361,10 @@ function Hero() {
             />
           </a>
 
-          {/* ================= MOBILE TRUST STRIP ================= */}
+          {/* =================================================
+              MOBILE TRUST STRIP
+          ================================================= */}
+
           <div
             className="
               mt-9
@@ -398,6 +406,7 @@ function Hero() {
                 "
               >
                 Premium
+
                 <span className="block">
                   21K Gold
                 </span>
@@ -432,6 +441,7 @@ function Hero() {
                 "
               >
                 Trusted
+
                 <span className="block">
                   Since 1963
                 </span>
@@ -466,6 +476,7 @@ function Hero() {
                 "
               >
                 Refined
+
                 <span className="block">
                   Craftsmanship
                 </span>
@@ -473,7 +484,10 @@ function Hero() {
             </div>
           </div>
 
-          {/* ================= DESKTOP TRUST ================= */}
+          {/* =================================================
+              DESKTOP TRUST
+          ================================================= */}
+
           <div
             className="
               mt-11
@@ -565,13 +579,17 @@ function Hero() {
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
 
-        {/* Desktop right side */}
+        {/* Desktop right-side visual balance */}
+
         <div className="hidden min-h-[520px] lg:block" />
       </div>
 
-      {/* ================= DESKTOP SCROLL ================= */}
+      {/* =====================================================
+          DESKTOP SCROLL
+      ===================================================== */}
+
       <a
         href="#collections"
         aria-label="Scroll to collections"
