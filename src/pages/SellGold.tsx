@@ -8,6 +8,8 @@ import {
   Sparkles,
 } from "lucide-react";
 
+import { trackEvent } from "../services/analytics";
+
 const FALLBACK_24K_TOLA = 431500;
 const TOLA_GRAMS = 11.664;
 
@@ -28,6 +30,12 @@ function SellGold() {
   const [purity, setPurity] = useState<Purity>("21K");
   const [weight, setWeight] = useState("");
 
+  /*
+  |--------------------------------------------------------------------------
+  | Indicative Estimate
+  |--------------------------------------------------------------------------
+  */
+
   const estimatedValue = useMemo(() => {
     const grams = Number(weight);
 
@@ -35,11 +43,51 @@ function SellGold() {
       return 0;
     }
 
-    const price24Gram = FALLBACK_24K_TOLA / TOLA_GRAMS;
-    const purityPriceGram = price24Gram * purityFactor[purity];
+    const price24Gram =
+      FALLBACK_24K_TOLA / TOLA_GRAMS;
+
+    const purityPriceGram =
+      price24Gram * purityFactor[purity];
 
     return grams * purityPriceGram;
   }, [purity, weight]);
+
+  /*
+  |--------------------------------------------------------------------------
+  | GA4 - Sell Gold Lead Tracking
+  |--------------------------------------------------------------------------
+  |
+  | Fires when customer clicks the main WhatsApp quote button.
+  |
+  */
+
+  const handleSellGoldLead = () => {
+    trackEvent("sell_gold_lead", {
+      purity,
+      weight_grams: Number(weight) || 0,
+      estimated_value: Math.round(estimatedValue),
+      lead_method: "whatsapp",
+      page_location: "sell_gold",
+    });
+  };
+
+  /*
+  |--------------------------------------------------------------------------
+  | Secondary WhatsApp Tracking
+  |--------------------------------------------------------------------------
+  */
+
+  const handleSpeakWithTeam = () => {
+    trackEvent("whatsapp_click", {
+      link_location: "sell_gold_team",
+    });
+  };
+
+  /*
+  |--------------------------------------------------------------------------
+  | WhatsApp Message
+  |--------------------------------------------------------------------------
+  */
 
   const whatsappMessage = encodeURIComponent(
     `Assalam-o-Alaikum, I would like to get a quote for selling my gold.
@@ -47,7 +95,9 @@ function SellGold() {
 Purity: ${purity}
 Weight: ${weight || "Not entered"} grams
 Indicative Estimate: ${
-      estimatedValue > 0 ? formatPKR(estimatedValue) : "Not calculated"
+      estimatedValue > 0
+        ? formatPKR(estimatedValue)
+        : "Not calculated"
     }
 
 Please share the current buying price and guide me about testing and valuation.`
@@ -104,8 +154,9 @@ Please share the current buying price and guide me about testing and valuation.`
               sm:text-base
             "
           >
-            Enter your gold purity and approximate weight to view an indicative
-            estimate before requesting the current buying price from our team.
+            Enter your gold purity and approximate weight
+            to view an indicative estimate before requesting
+            the current buying price from our team.
           </p>
         </div>
 
@@ -155,7 +206,9 @@ Please share the current buying price and guide me about testing and valuation.`
               </p>
 
               <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
-                {(["24K", "22K", "21K", "18K"] as Purity[]).map((item) => (
+                {(
+                  ["24K", "22K", "21K", "18K"] as Purity[]
+                ).map((item) => (
                   <button
                     key={item}
                     type="button"
@@ -221,7 +274,9 @@ Please share the current buying price and guide me about testing and valuation.`
                     min="0"
                     step="0.01"
                     value={weight}
-                    onChange={(event) => setWeight(event.target.value)}
+                    onChange={(event) =>
+                      setWeight(event.target.value)
+                    }
                     placeholder="Enter weight"
                     inputMode="decimal"
                     className="
@@ -282,16 +337,19 @@ Please share the current buying price and guide me about testing and valuation.`
               </p>
 
               <p className="mt-3 text-xs leading-6 text-white/40">
-                This is an indicative estimate only. Final buying price may
-                differ after purity testing, exact weight verification, market
-                movement and applicable deductions.
+                This is an indicative estimate only. Final
+                buying price may differ after purity testing,
+                exact weight verification, market movement and
+                applicable deductions.
               </p>
             </div>
 
+            {/* Main WhatsApp Lead CTA */}
             <a
               href={`https://wa.me/923352484936?text=${whatsappMessage}`}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
+              onClick={handleSellGoldLead}
               className="
                 mt-6
                 flex
@@ -314,7 +372,11 @@ Please share the current buying price and guide me about testing and valuation.`
                 hover:bg-[#e2c15b]
               "
             >
-              <MessageCircle size={18} aria-hidden="true" />
+              <MessageCircle
+                size={18}
+                aria-hidden="true"
+              />
+
               Request Current Buying Price
             </a>
           </div>
@@ -347,6 +409,7 @@ Please share the current buying price and guide me about testing and valuation.`
             </h2>
 
             <div className="mt-7 space-y-6">
+              {/* Step 1 */}
               <div className="flex gap-4">
                 <div
                   className="
@@ -370,12 +433,13 @@ Please share the current buying price and guide me about testing and valuation.`
                   </p>
 
                   <p className="mt-1 text-sm leading-6 text-white/45">
-                    Visit us with your jewellery, coins or gold items for
-                    physical assessment.
+                    Visit us with your jewellery, coins or gold
+                    items for physical assessment.
                   </p>
                 </div>
               </div>
 
+              {/* Step 2 */}
               <div className="flex gap-4">
                 <div
                   className="
@@ -399,12 +463,14 @@ Please share the current buying price and guide me about testing and valuation.`
                   </p>
 
                   <p className="mt-1 text-sm leading-6 text-white/45">
-                    Gold is checked for purity and exact net weight before a
-                    final valuation is discussed.
+                    Gold is checked for purity and exact net
+                    weight before a final valuation is
+                    discussed.
                   </p>
                 </div>
               </div>
 
+              {/* Step 3 */}
               <div className="flex gap-4">
                 <div
                   className="
@@ -428,8 +494,9 @@ Please share the current buying price and guide me about testing and valuation.`
                   </p>
 
                   <p className="mt-1 text-sm leading-6 text-white/45">
-                    Our team shares the current buying offer based on verified
-                    purity, weight and prevailing market conditions.
+                    Our team shares the current buying offer
+                    based on verified purity, weight and
+                    prevailing market conditions.
                   </p>
                 </div>
               </div>
@@ -447,33 +514,44 @@ Please share the current buying price and guide me about testing and valuation.`
               <div className="flex items-start gap-3">
                 <ShieldCheck
                   size={19}
-                  className="mt-0.5 shrink-0 text-[#D4AF37]"
+                  className="
+                    mt-0.5
+                    shrink-0
+                    text-[#D4AF37]
+                  "
                   aria-hidden="true"
                 />
 
                 <p className="text-sm leading-6 text-white/50">
-                  Final valuation is provided only after physical verification.
+                  Final valuation is provided only after
+                  physical verification.
                 </p>
               </div>
 
               <div className="flex items-start gap-3">
                 <Sparkles
                   size={19}
-                  className="mt-0.5 shrink-0 text-[#D4AF37]"
+                  className="
+                    mt-0.5
+                    shrink-0
+                    text-[#D4AF37]
+                  "
                   aria-hidden="true"
                 />
 
                 <p className="text-sm leading-6 text-white/50">
-                  Designed as an inquiry and valuation service, not an automatic
-                  online purchase commitment.
+                  Designed as an inquiry and valuation service,
+                  not an automatic online purchase commitment.
                 </p>
               </div>
             </div>
 
+            {/* Secondary WhatsApp CTA */}
             <a
               href="https://wa.me/923352484936"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
+              onClick={handleSpeakWithTeam}
               className="
                 mt-7
                 inline-flex
@@ -487,7 +565,11 @@ Please share the current buying price and guide me about testing and valuation.`
               "
             >
               Speak with our team
-              <ArrowRight size={16} aria-hidden="true" />
+
+              <ArrowRight
+                size={16}
+                aria-hidden="true"
+              />
             </a>
           </aside>
         </div>
