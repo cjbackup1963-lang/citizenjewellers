@@ -2,29 +2,41 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-<!-- Google tag (gtag.js) -->
-<script
-  async
-  src="https://www.googletagmanager.com/gtag/js?id=G-XCBX1CZ3D3"
-></script>
 
-<script>
-  window.dataLayer = window.dataLayer || [];
+    <!-- =====================================================
+         GOOGLE ANALYTICS 4
+    ====================================================== -->
 
-  function gtag() {
-    dataLayer.push(arguments);
-  }
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-XCBX1CZ3D3"
+    ></script>
 
-  gtag("js", new Date());
+    <script>
+      window.dataLayer = window.dataLayer || [];
 
-  gtag("config", "G-XCBX1CZ3D3");
-</script>
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      gtag("js", new Date());
+
+      gtag("config", "G-XCBX1CZ3D3");
+    </script>
+
+    <!-- =====================================================
+         BASIC META
+    ====================================================== -->
+
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0"
     />
 
-    <meta name="theme-color" content="#050505" />
+    <meta
+      name="theme-color"
+      content="#050505"
+    />
 
     <meta
       name="description"
@@ -36,16 +48,29 @@
       content="Citizen Jewellers, jewellery Karachi, 21K gold jewellery, bridal jewellery Karachi, diamond jewellery, gold rates Pakistan, jewellery Saddar Karachi, Lakhani Sons"
     />
 
-    <meta name="author" content="Citizen Jewellers" />
+    <meta
+      name="author"
+      content="Citizen Jewellers"
+    />
 
-    <meta name="robots" content="index, follow" />
+    <meta
+      name="robots"
+      content="index, follow"
+    />
+
+    <!-- =====================================================
+         CANONICAL
+    ====================================================== -->
 
     <link
       rel="canonical"
       href="https://citizenjewellers.com/"
     />
 
-    <!-- Open Graph -->
+    <!-- =====================================================
+         OPEN GRAPH
+    ====================================================== -->
+
     <meta
       property="og:title"
       content="Citizen Jewellers | 21K Gold & Bridal Jewellery Karachi"
@@ -56,7 +81,10 @@
       content="Discover premium 21K gold, diamond, bridal and custom jewellery by Lakhani Sons. Trusted since 1963 in Saddar, Karachi."
     />
 
-    <meta property="og:type" content="website" />
+    <meta
+      property="og:type"
+      content="website"
+    />
 
     <meta
       property="og:url"
@@ -73,12 +101,24 @@
       content="Citizen Jewellers luxury jewellery showroom"
     />
 
-    <meta property="og:site_name" content="Citizen Jewellers" />
+    <meta
+      property="og:site_name"
+      content="Citizen Jewellers"
+    />
 
-    <meta property="og:locale" content="en_PK" />
+    <meta
+      property="og:locale"
+      content="en_PK"
+    />
 
-    <!-- Twitter / Social Preview -->
-    <meta name="twitter:card" content="summary_large_image" />
+    <!-- =====================================================
+         TWITTER / SOCIAL PREVIEW
+    ====================================================== -->
+
+    <meta
+      name="twitter:card"
+      content="summary_large_image"
+    />
 
     <meta
       name="twitter:title"
@@ -95,7 +135,10 @@
       content="https://citizenjewellers.com/images/showroom.webp"
     />
 
-    <!-- Icons -->
+    <!-- =====================================================
+         ICONS
+    ====================================================== -->
+
     <link
       rel="icon"
       type="image/svg+xml"
@@ -107,25 +150,37 @@
       href="/images/logo.webp"
     />
 
-    <!-- Performance -->
+    <!-- =====================================================
+         PERFORMANCE
+    ====================================================== -->
+
+    <!-- Actual LCP Hero Image -->
     <link
       rel="preload"
       as="image"
-      href="/images/showroom.webp"
+      href="/images/luxury/hero/mobile-hero-banner.webp?v=1"
       fetchpriority="high"
     />
 
+    <!-- Logo -->
     <link
       rel="preload"
       as="image"
       href="/images/logo.webp"
     />
 
+    <!-- =====================================================
+         TITLE
+    ====================================================== -->
+
     <title>
       Citizen Jewellers | 21K Gold & Bridal Jewellery Karachi
     </title>
 
-    <!-- Local Business Structured Data -->
+    <!-- =====================================================
+         LOCAL BUSINESS STRUCTURED DATA
+    ====================================================== -->
+
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -169,55 +224,109 @@
   </head>
 
   <body>
+    <!-- =====================================================
+         NETLIFY — GOLD PRICE ALERTS
+    ====================================================== -->
 
-  <!-- Netlify Gold Price Alerts Form -->
-  <form
-    name="gold-price-alerts"
-    method="POST"
-    data-netlify="true"
-    netlify-honeypot="bot-field"
-    hidden
-  >
-    <input
-      type="hidden"
-      name="form-name"
-      value="gold-price-alerts"
-    />
+    <form
+      name="gold-price-alerts"
+      method="POST"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+      hidden
+    >
+      <input
+        type="hidden"
+        name="form-name"
+        value="gold-price-alerts"
+      />
 
-    <input
-      type="text"
-      name="bot-field"
-    />
+      <input
+        type="text"
+        name="bot-field"
+      />
 
-    <input
-      type="text"
-      name="name"
-    />
+      <input
+        type="text"
+        name="name"
+      />
 
-    <input
-      type="tel"
-      name="phone"
-    />
+      <input
+        type="tel"
+        name="phone"
+      />
 
-    <input
-      type="text"
-      name="interest"
-    />
+      <input
+        type="text"
+        name="interest"
+      />
 
-    <input
-      type="text"
-      name="consent"
-    />
-  </form>
+      <input
+        type="text"
+        name="consent"
+      />
+    </form>
 
-  <!-- React App -->
-  <div id="root"></div>
+    <!-- =====================================================
+         NETLIFY — CUSTOMER CONTACT ENQUIRY
+    ====================================================== -->
 
-  <noscript>
-    Citizen Jewellers requires JavaScript to display the website.
-  </noscript>
+    <form
+      name="contact-inquiry"
+      method="POST"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+      hidden
+    >
+      <input
+        type="hidden"
+        name="form-name"
+        value="contact-inquiry"
+      />
 
-  <script type="module" src="/src/main.tsx"></script>
+      <input
+        type="text"
+        name="bot-field"
+      />
 
-</body>
+      <input
+        type="text"
+        name="name"
+      />
+
+      <input
+        type="tel"
+        name="phone"
+      />
+
+      <input
+        type="email"
+        name="email"
+      />
+
+      <input
+        type="text"
+        name="subject"
+      />
+
+      <textarea
+        name="message"
+      ></textarea>
+    </form>
+
+    <!-- =====================================================
+         REACT APPLICATION
+    ====================================================== -->
+
+    <div id="root"></div>
+
+    <noscript>
+      Citizen Jewellers requires JavaScript to display the website.
+    </noscript>
+
+    <script
+      type="module"
+      src="/src/main.tsx"
+    ></script>
+  </body>
 </html>
