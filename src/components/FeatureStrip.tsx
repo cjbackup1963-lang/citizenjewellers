@@ -15,7 +15,7 @@ const features = [
   },
   {
     icon: Gem,
-    title: "Premium 21K Gold",
+    title: "Premium Gold",
     text: "Refined jewellery craftsmanship",
   },
   {

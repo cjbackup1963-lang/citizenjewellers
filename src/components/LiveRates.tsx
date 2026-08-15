@@ -138,9 +138,9 @@ function LiveRates() {
           </h2>
 
           <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-white/50 sm:text-base">
-            Reference pricing for 24K, 22K and 21K gold in Pakistan. Citizen
-            jewellery products are primarily crafted in 21K gold.
-          </p>
+  Reference pricing for 24K, 22K and 21K gold in Pakistan. Explore our
+  premium gold jewellery crafted with quality, precision and refined craftsmanship.
+</p>
         </motion.div>
 
         {/* Loading */}

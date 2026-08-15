@@ -11,7 +11,7 @@ const faqs = [
   {
     question: "What purity of gold jewellery does Citizen Jewellers offer?",
     answer:
-      "Citizen Jewellers specialises in premium 21K gold jewellery, crafted with exceptional attention to quality, finishing and timeless design.",
+      "Citizen Jewellers specialises in premium gold jewellery, crafted with exceptional attention to quality, finishing and timeless design.",
   },
   {
     question: "Do you create custom jewellery designs?",
@@ -213,7 +213,7 @@ function FAQ() {
 
           <div className="flex items-center gap-3">
             <Gem className="text-[#D4AF37]" />
-            <span className="text-white">Premium 21K Jewellery</span>
+            <span className="text-white">Premium Jewellery</span>
           </div>
 
           <div className="flex items-center gap-3">

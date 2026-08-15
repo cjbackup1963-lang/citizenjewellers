@@ -263,7 +263,7 @@ function Contact() {
               sm:text-lg
             "
           >
-            Whether you are looking for premium 21K
+            Whether you are looking for premium
             jewellery, custom design guidance, gold
             exchange or professional assistance, our team
             is ready to help.
@@ -1105,8 +1105,8 @@ function Contact() {
                         Jewellery Collection
                       </option>
 
-                      <option value="21K Gold Jewellery">
-                        21K Gold Jewellery
+                      <option value="Gold Jewellery">
+                        Gold Jewellery
                       </option>
 
                       <option value="Bridal Jewellery">

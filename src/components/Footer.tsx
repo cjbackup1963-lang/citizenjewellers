@@ -19,7 +19,7 @@ const quickLinks = [
 ];
 
 const collections = [
-  "Premium 21K Gold Jewellery",
+  "Premium Gold Jewellery",
   "Diamond Jewellery",
   "Bridal Collection",
   "Men’s Collection",
@@ -136,7 +136,7 @@ function Footer() {
             </a>
 
             <p className="mt-6 max-w-sm text-sm leading-7 text-white/50">
-              Premium 21K gold, diamond and gemstone jewellery shaped by
+              Premium gold, diamond and gemstone jewellery shaped by
               heritage, trusted craftsmanship and timeless elegance since
               1963.
             </p>

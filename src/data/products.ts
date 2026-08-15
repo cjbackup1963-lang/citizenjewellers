@@ -47,7 +47,7 @@ export const products: Product[] = [
       "/images/luxury/featured/bangles.webp",
     ],
     description:
-      "Beautifully handcrafted 21K gold bangles designed for timeless elegance and everyday luxury.",
+      "Beautifully handcrafted gold bangles designed for timeless elegance and everyday luxury.",
     rating: 5,
     details: {
       making: "Traditional Craftsmanship",

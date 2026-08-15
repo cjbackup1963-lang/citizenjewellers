@@ -12,9 +12,9 @@ import {
 const services = [
   {
     icon: Gem,
-    title: "21K Gold Jewellery",
+    title: "Gold Jewellery",
     description:
-      "Premium 21K gold jewellery crafted with refined finishing, traditional artistry and lasting elegance.",
+      "Premium gold jewellery crafted with refined finishing, traditional artistry and lasting elegance.",
   },
   {
     icon: Diamond,

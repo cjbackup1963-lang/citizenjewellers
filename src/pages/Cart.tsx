@@ -79,7 +79,7 @@ Purity: ${item.purity}`
             </h2>
 
             <p className="mx-auto mt-4 max-w-md leading-7 text-white/50">
-              Explore our curated 21K gold, diamond and gemstone jewellery
+              Explore our curated gold, diamond and gemstone jewellery
               collection.
             </p>
 

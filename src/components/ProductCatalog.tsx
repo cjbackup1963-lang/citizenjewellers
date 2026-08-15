@@ -36,7 +36,7 @@ function ProductCatalog() {
           </h2>
 
           <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-white/55 sm:text-base">
-            Discover handcrafted 21K jewellery created with refined detailing,
+            Discover handcrafted jewellery created with refined detailing,
             timeless design and generations of trusted craftsmanship.
           </p>
         </motion.div>

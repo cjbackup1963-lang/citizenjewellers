@@ -307,7 +307,7 @@ function Hero() {
               md:text-white/65
             "
           >
-            Premium 21K gold, diamond and gemstone jewellery
+            Premium gold, diamond and gemstone jewellery
             crafted with trust, precision and refined
             craftsmanship.
           </p>
@@ -378,7 +378,7 @@ function Hero() {
               md:hidden
             "
           >
-            {/* 21K */}
+            {/*  */}
             <div
               className="
                 flex
@@ -408,7 +408,7 @@ function Hero() {
                 Premium
 
                 <span className="block">
-                  21K Gold
+                  Gold
                 </span>
               </p>
             </div>
@@ -516,7 +516,7 @@ function Hero() {
 
               <div>
                 <p className="text-sm font-semibold text-white">
-                  Premium 21K Gold
+                  Premium Gold
                 </p>
 
                 <p className="mt-1 text-xs text-white/40">

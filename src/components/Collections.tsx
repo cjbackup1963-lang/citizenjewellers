@@ -10,9 +10,9 @@ import {
 const collections = [
   {
     title: "Gold Jewellery",
-    subtitle: "Premium 21K Gold Creations",
+    subtitle: "Premium Gold Creations",
     description:
-      "Discover timeless 21K gold jewellery crafted with precision, purity and elegance.",
+      "Discover timeless gold jewellery crafted with precision, purity and elegance.",
     image:
       "/images/luxury/collections/gold-collection-banner.webp",
     icon: Gem,
@@ -30,7 +30,7 @@ const collections = [
     title: "Bridal Collection",
     subtitle: "Royal Wedding Masterpieces",
     description:
-      "Exquisite 21K bridal jewellery created for unforgettable celebrations.",
+      "Exquisite bridal jewellery created for unforgettable celebrations.",
     image:
       "/images/luxury/collections/bridal-collection-banner.webp",
     icon: Crown,

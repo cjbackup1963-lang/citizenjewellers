@@ -92,7 +92,7 @@ function FeaturedJewellery() {
                 sm:text-lg
               "
             >
-              Selected 21K jewellery designs created with elegance, precision
+              Selected jewellery designs created with elegance, precision
               and generations of trusted craftsmanship.
             </p>
           </div>

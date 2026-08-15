@@ -16,7 +16,7 @@ const highlights = [
   {
     icon: Gem,
     title: "Premium Craftsmanship",
-    text: "Finely crafted 21K gold, diamond and gemstone jewellery.",
+    text: "Finely crafted gold, diamond and gemstone jewellery.",
   },
   {
     icon: Sparkles,
@@ -323,7 +323,7 @@ function About() {
               text-white/50
             "
           >
-            From premium 21K gold jewellery to diamond and gemstone
+            From premium gold jewellery to diamond and gemstone
             masterpieces, every piece reflects our commitment to quality,
             refinement and lasting value.
           </p>
