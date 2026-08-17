@@ -24,14 +24,17 @@ import Hero from "./components/Hero";
 import FeatureStrip from "./components/FeatureStrip";
 import Collections from "./components/Collections";
 
-/*
-|--------------------------------------------------------------------------
-| IMPORTANT
-|--------------------------------------------------------------------------
-| These sections have navbar hash links.
-| They MUST always exist in the DOM.
-|--------------------------------------------------------------------------
-*/
+/* =========================================================
+   HASH NAVIGATION SECTIONS
+   =========================================================
+   These remain directly rendered so navbar links:
+   #rates
+   #about
+   #services
+   #gallery
+   #contact
+   continue working reliably.
+   ========================================================= */
 
 import LiveRates from "./components/LiveRates";
 import About from "./components/About";
@@ -96,6 +99,18 @@ const Appraisal = lazy(
 
 const ZakatCalculator = lazy(
   () => import("./pages/ZakatCalculator")
+);
+
+/* =========================================================
+   GOLD INSIGHTS
+   ========================================================= */
+
+const GoldInsights = lazy(
+  () => import("./pages/GoldInsights")
+);
+
+const GoldRatePakistan = lazy(
+  () => import("./pages/GoldRatePakistan")
 );
 
 /* =========================================================
@@ -192,16 +207,13 @@ function HomePage() {
 
       <Collections />
 
-      {/* OPTIONAL LAZY CONTENT */}
+      {/* LAZY CONTENT */}
 
       <LazySection minHeight={650}>
         <FeaturedJewellery />
       </LazySection>
 
-      {/* ===================================================
-          HASH NAVIGATION TARGET
-          MUST NOT BE LazySection
-      =================================================== */}
+      {/* GOLD RATES — NAVIGATION TARGET */}
 
       <LiveRates />
 
@@ -217,10 +229,7 @@ function HomePage() {
         <ProductCatalog />
       </LazySection>
 
-      {/* ===================================================
-          HASH NAVIGATION TARGETS
-          MUST ALWAYS EXIST
-      =================================================== */}
+      {/* NAVIGATION TARGETS */}
 
       <About />
 
@@ -252,13 +261,6 @@ function RouteEffects() {
     if (location.hash) {
       const id =
         location.hash.replace("#", "");
-
-      /*
-      ---------------------------------------------------------
-      Retry briefly because React route rendering can take
-      a moment when coming from another route.
-      ---------------------------------------------------------
-      */
 
       let attempts = 0;
 
@@ -372,14 +374,34 @@ function App() {
             element={<HomePage />}
           />
 
+          {/* GOLD INSIGHTS HUB */}
+
+          <Route
+            path="/gold-insights"
+            element={
+              <Suspense fallback={<PageFallback />}>
+                <GoldInsights />
+              </Suspense>
+            }
+          />
+
+          {/* GOLD RATE PAKISTAN ARTICLE */}
+
+          <Route
+            path="/gold-insights/gold-rate-pakistan"
+            element={
+              <Suspense fallback={<PageFallback />}>
+                <GoldRatePakistan />
+              </Suspense>
+            }
+          />
+
           {/* PRODUCT DETAILS */}
 
           <Route
             path="/product/:id"
             element={
-              <Suspense
-                fallback={<PageFallback />}
-              >
+              <Suspense fallback={<PageFallback />}>
                 <ProductDetails />
               </Suspense>
             }
@@ -390,9 +412,7 @@ function App() {
           <Route
             path="/cart"
             element={
-              <Suspense
-                fallback={<PageFallback />}
-              >
+              <Suspense fallback={<PageFallback />}>
                 <Cart />
               </Suspense>
             }
@@ -403,9 +423,7 @@ function App() {
           <Route
             path="/checkout"
             element={
-              <Suspense
-                fallback={<PageFallback />}
-              >
+              <Suspense fallback={<PageFallback />}>
                 <Checkout />
               </Suspense>
             }
@@ -416,9 +434,7 @@ function App() {
           <Route
             path="/sell-gold"
             element={
-              <Suspense
-                fallback={<PageFallback />}
-              >
+              <Suspense fallback={<PageFallback />}>
                 <SellGold />
               </Suspense>
             }
@@ -429,9 +445,7 @@ function App() {
           <Route
             path="/appraisal"
             element={
-              <Suspense
-                fallback={<PageFallback />}
-              >
+              <Suspense fallback={<PageFallback />}>
                 <Appraisal />
               </Suspense>
             }
@@ -442,9 +456,7 @@ function App() {
           <Route
             path="/zakat-calculator"
             element={
-              <Suspense
-                fallback={<PageFallback />}
-              >
+              <Suspense fallback={<PageFallback />}>
                 <ZakatCalculator />
               </Suspense>
             }

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+
 import {
+  BookOpen,
   Calculator,
   Menu,
   MessageCircle,
@@ -9,15 +11,28 @@ import {
   UserRound,
   X,
 } from "lucide-react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+
+import {
+  Link,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 
 import { useCart } from "../context/CartContext";
+
+/* =========================================================
+   TYPES
+========================================================= */
 
 interface MenuItem {
   name: string;
   id?: string;
   path?: string;
 }
+
+/* =========================================================
+   MENU
+========================================================= */
 
 const menu: MenuItem[] = [
   {
@@ -31,6 +46,10 @@ const menu: MenuItem[] = [
   {
     name: "Gold Rates",
     id: "rates",
+  },
+  {
+    name: "Gold Insights",
+    path: "/gold-insights",
   },
   {
     name: "Sell Gold",
@@ -62,13 +81,23 @@ const menu: MenuItem[] = [
   },
 ];
 
+/* =========================================================
+   NAVBAR
+========================================================= */
+
 function Navbar() {
   const { totalItems } = useCart();
+
   const location = useLocation();
-const navigate = useNavigate();
+  const navigate = useNavigate();
+
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+
+  /* =======================================================
+     NAVBAR SCROLL EFFECT
+  ======================================================= */
 
   useEffect(() => {
     const handleScroll = () => {
@@ -86,10 +115,18 @@ const navigate = useNavigate();
     };
   }, []);
 
+  /* =======================================================
+     CLOSE MENUS ON ROUTE CHANGE
+  ======================================================= */
+
   useEffect(() => {
     setOpen(false);
     setSearchOpen(false);
   }, [location.pathname]);
+
+  /* =======================================================
+     MOBILE BODY LOCK
+  ======================================================= */
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -99,50 +136,130 @@ const navigate = useNavigate();
     };
   }, [open]);
 
-  const handleNavigation = (item: MenuItem) => {
-  setOpen(false);
-  setSearchOpen(false);
+  /* =======================================================
+     SCROLL TO HOMEPAGE SECTION
+  ======================================================= */
 
-  // Normal pages
-  if (item.path) {
-    navigate(item.path);
-    return;
-  }
+  const scrollToSection = (targetId: string) => {
+    const section = document.getElementById(targetId);
 
-  // Homepage sections
-  if (!item.id) {
-    return;
-  }
-
-  const scrollToSection = () => {
-    const section = document.getElementById(item.id!);
-
-    if (section) {
-      section.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
+    if (!section) {
+      return false;
     }
+
+    const navbarOffset =
+      window.innerWidth < 640 ? 82 : 100;
+
+    const sectionTop =
+      section.getBoundingClientRect().top +
+      window.scrollY -
+      navbarOffset;
+
+    window.scrollTo({
+      top: sectionTop,
+      behavior: "smooth",
+    });
+
+    return true;
   };
 
-  // Already on homepage
-  if (location.pathname === "/") {
-    window.history.replaceState(null, "", `/#${item.id}`);
+  /* =======================================================
+     MAIN NAVIGATION HANDLER
+  ======================================================= */
 
-    window.setTimeout(() => {
-      scrollToSection();
-    }, 50);
+  const handleNavigation = (item: MenuItem) => {
+    setOpen(false);
+    setSearchOpen(false);
 
-    return;
-  }
+    /*
+    ---------------------------------------------------------
+    Important for mobile
+    ---------------------------------------------------------
+    */
 
-  // Coming from Cart / Sell Gold / Appraisal etc.
-  navigate(`/#${item.id}`);
+    document.body.style.overflow = "";
 
-  window.setTimeout(() => {
-    scrollToSection();
-  }, 250);
-};
+    /*
+    ---------------------------------------------------------
+    Separate route pages
+    ---------------------------------------------------------
+    */
+
+    if (item.path) {
+      navigate(item.path);
+      return;
+    }
+
+    /*
+    ---------------------------------------------------------
+    Homepage sections
+    ---------------------------------------------------------
+    */
+
+    if (!item.id) {
+      return;
+    }
+
+    const targetId = item.id;
+
+    /*
+    ---------------------------------------------------------
+    Already on homepage
+    ---------------------------------------------------------
+    */
+
+    if (location.pathname === "/") {
+      window.history.replaceState(
+        null,
+        "",
+        `/#${targetId}`
+      );
+
+      /*
+      Wait for mobile drawer exit animation.
+      */
+
+      window.setTimeout(() => {
+        scrollToSection(targetId);
+      }, 380);
+
+      return;
+    }
+
+    /*
+    ---------------------------------------------------------
+    Coming from Gold Insights / Cart / Sell Gold / etc.
+    ---------------------------------------------------------
+    */
+
+    navigate(`/#${targetId}`);
+
+    let attempts = 0;
+
+    const waitForSection = () => {
+      if (scrollToSection(targetId)) {
+        return;
+      }
+
+      attempts += 1;
+
+      if (attempts < 20) {
+        window.setTimeout(
+          waitForSection,
+          100
+        );
+      }
+    };
+
+    window.setTimeout(
+      waitForSection,
+      400
+    );
+  };
+
+  /* =======================================================
+     GET MENU PATH
+  ======================================================= */
 
   const getMenuPath = (item: MenuItem) => {
     if (item.path) {
@@ -152,8 +269,40 @@ const navigate = useNavigate();
     return `/#${item.id}`;
   };
 
+  /* =======================================================
+     LOGO CLICK
+  ======================================================= */
+
+  const handleLogoClick = () => {
+    setOpen(false);
+    setSearchOpen(false);
+
+    document.body.style.overflow = "";
+
+    if (location.pathname === "/") {
+      window.history.replaceState(
+        null,
+        "",
+        "/"
+      );
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+
+      return;
+    }
+
+    navigate("/");
+  };
+
   return (
     <header className="sticky top-0 z-50">
+      {/* ===================================================
+          MAIN NAVBAR
+      =================================================== */}
+
       <div
         className={`
           relative
@@ -167,6 +316,8 @@ const navigate = useNavigate();
           }
         `}
       >
+        {/* GOLD LINE */}
+
         <div
           className="
             pointer-events-none
@@ -198,19 +349,15 @@ const navigate = useNavigate();
             xl:min-h-[92px]
           "
         >
-          <Link
-            to="/"
-            aria-label="Citizen Jewellers home"
-            className="relative z-10 shrink-0"
-            onClick={() => {
-              setOpen(false);
-              setSearchOpen(false);
+          {/* =================================================
+              LOGO
+          ================================================= */}
 
-              window.scrollTo({
-                top: 0,
-                behavior: "smooth",
-              });
-            }}
+          <button
+            type="button"
+            aria-label="Citizen Jewellers home"
+            onClick={handleLogoClick}
+            className="relative z-10 shrink-0"
           >
             <img
               src="/images/logo.webp?v=1"
@@ -234,18 +381,21 @@ const navigate = useNavigate();
                 xl:max-w-[320px]
               "
             />
-          </Link>
+          </button>
 
-          {/* DESKTOP NAV */}
+          {/* =================================================
+              DESKTOP NAVIGATION
+          ================================================= */}
+
           <nav
             className="
               hidden
               flex-1
               items-center
               justify-center
-              gap-3
+              gap-2
               xl:flex
-              2xl:gap-5
+              2xl:gap-4
             "
             aria-label="Main navigation"
           >
@@ -253,21 +403,27 @@ const navigate = useNavigate();
               <Link
                 key={item.name}
                 to={getMenuPath(item)}
-                onClick={() => handleNavigation(item)}
+                onClick={(event) => {
+                  if (item.id) {
+                    event.preventDefault();
+                  }
+
+                  handleNavigation(item);
+                }}
                 className="
                   group
                   relative
                   whitespace-nowrap
                   py-8
-                  text-[11px]
+                  text-[10px]
                   font-medium
                   uppercase
-                  tracking-[0.06em]
+                  tracking-[0.05em]
                   text-white/80
                   transition
                   duration-300
                   hover:text-[#D4AF37]
-                  2xl:text-[12px]
+                  2xl:text-[11px]
                 "
               >
                 {item.name}
@@ -290,11 +446,18 @@ const navigate = useNavigate();
             ))}
           </nav>
 
-          {/* RIGHT ACTIONS */}
+          {/* =================================================
+              RIGHT ACTIONS
+          ================================================= */}
+
           <div className="relative z-10 flex shrink-0 items-center gap-1.5 sm:gap-2">
+            {/* SEARCH */}
+
             <button
               type="button"
-              onClick={() => setSearchOpen((value) => !value)}
+              onClick={() =>
+                setSearchOpen((value) => !value)
+              }
               className="
                 hidden
                 h-11
@@ -315,6 +478,8 @@ const navigate = useNavigate();
               <Search size={21} aria-hidden="true" />
             </button>
 
+            {/* ACCOUNT */}
+
             <Link
               to="/account"
               className="
@@ -333,8 +498,13 @@ const navigate = useNavigate();
               "
               aria-label="Customer account"
             >
-              <UserRound size={21} aria-hidden="true" />
+              <UserRound
+                size={21}
+                aria-hidden="true"
+              />
             </Link>
+
+            {/* CART */}
 
             <Link
               to="/cart"
@@ -361,7 +531,10 @@ const navigate = useNavigate();
               "
               aria-label={`Cart with ${totalItems} items`}
             >
-              <ShoppingCart size={21} aria-hidden="true" />
+              <ShoppingCart
+                size={21}
+                aria-hidden="true"
+              />
 
               {totalItems > 0 && (
                 <span
@@ -383,10 +556,14 @@ const navigate = useNavigate();
                     ring-black
                   "
                 >
-                  {totalItems > 99 ? "99+" : totalItems}
+                  {totalItems > 99
+                    ? "99+"
+                    : totalItems}
                 </span>
               )}
             </Link>
+
+            {/* WHATSAPP */}
 
             <a
               href="https://wa.me/923352484936"
@@ -402,11 +579,11 @@ const navigate = useNavigate();
                 border
                 border-[#D4AF37]/65
                 bg-black/25
-                px-5
-                text-xs
+                px-4
+                text-[11px]
                 font-semibold
                 uppercase
-                tracking-[0.08em]
+                tracking-[0.07em]
                 text-[#D4AF37]
                 transition
                 duration-300
@@ -416,13 +593,21 @@ const navigate = useNavigate();
                 lg:inline-flex
               "
             >
-              <MessageCircle size={17} aria-hidden="true" />
+              <MessageCircle
+                size={17}
+                aria-hidden="true"
+              />
+
               WhatsApp Us
             </a>
 
+            {/* MOBILE MENU */}
+
             <button
               type="button"
-              onClick={() => setOpen((value) => !value)}
+              onClick={() =>
+                setOpen((value) => !value)
+              }
               className="
                 grid
                 h-11
@@ -441,15 +626,26 @@ const navigate = useNavigate();
                 sm:w-12
                 xl:hidden
               "
-              aria-label={open ? "Close menu" : "Open menu"}
+              aria-label={
+                open
+                  ? "Close menu"
+                  : "Open menu"
+              }
               aria-expanded={open}
             >
-              {open ? <X size={25} /> : <Menu size={25} />}
+              {open ? (
+                <X size={25} />
+              ) : (
+                <Menu size={25} />
+              )}
             </button>
           </div>
         </div>
 
-        {/* DESKTOP SEARCH */}
+        {/* =================================================
+            DESKTOP SEARCH
+        ================================================= */}
+
         <AnimatePresence initial={false}>
           {searchOpen && (
             <motion.div
@@ -499,7 +695,7 @@ const navigate = useNavigate();
 
                   <input
                     type="search"
-                    placeholder="Search necklaces, rings, bangles..."
+                    placeholder="Search jewellery and gold guides..."
                     className="
                       min-h-12
                       w-full
@@ -514,8 +710,14 @@ const navigate = useNavigate();
 
                   <button
                     type="button"
-                    onClick={() => setSearchOpen(false)}
-                    className="text-white/45 transition hover:text-[#D4AF37]"
+                    onClick={() =>
+                      setSearchOpen(false)
+                    }
+                    className="
+                      text-white/45
+                      transition
+                      hover:text-[#D4AF37]
+                    "
                     aria-label="Close search"
                   >
                     <X size={18} />
@@ -527,18 +729,31 @@ const navigate = useNavigate();
         </AnimatePresence>
       </div>
 
-      {/* MOBILE DRAWER */}
+      {/* ===================================================
+          MOBILE DRAWER
+      =================================================== */}
+
       <AnimatePresence initial={false}>
         {open && (
           <>
             <motion.button
               type="button"
               aria-label="Close navigation"
-              onClick={() => setOpen(false)}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
+              onClick={() =>
+                setOpen(false)
+              }
+              initial={{
+                opacity: 0,
+              }}
+              animate={{
+                opacity: 1,
+              }}
+              exit={{
+                opacity: 0,
+              }}
+              transition={{
+                duration: 0.25,
+              }}
               className="
                 fixed
                 inset-0
@@ -614,6 +829,8 @@ const navigate = useNavigate();
                 "
                 aria-label="Mobile navigation"
               >
+                {/* SEARCH */}
+
                 <div
                   className="
                     mb-5
@@ -636,7 +853,7 @@ const navigate = useNavigate();
 
                   <input
                     type="search"
-                    placeholder="Search jewellery..."
+                    placeholder="Search jewellery and guides..."
                     className="
                       min-h-13
                       w-full
@@ -673,66 +890,97 @@ const navigate = useNavigate();
                   </p>
                 </div>
 
-                <div className="divide-y divide-white/5">
-                  {menu.map((item, index) => (
-                    <motion.div
-                      key={item.name}
-                      initial={{
-                        opacity: 0,
-                        x: -14,
-                      }}
-                      animate={{
-                        opacity: 1,
-                        x: 0,
-                      }}
-                      transition={{
-                        delay: 0.04 + index * 0.035,
-                      }}
-                    >
-                      <Link
-                        to={getMenuPath(item)}
-                        onClick={() => handleNavigation(item)}
-                        className="
-                          group
-                          flex
-                          min-h-14
-                          items-center
-                          justify-between
-                          gap-4
-                          py-3
-                          text-[15px]
-                          font-medium
-                          uppercase
-                          tracking-[0.08em]
-                          text-white/80
-                          transition
-                          duration-300
-                          hover:pl-1
-                          hover:text-[#D4AF37]
-                        "
-                      >
-                        <span>{item.name}</span>
+                {/* MOBILE MENU ITEMS */}
 
-                        <span
+                <div className="divide-y divide-white/5">
+                  {menu.map(
+                    (
+                      item,
+                      index
+                    ) => (
+                      <motion.div
+                        key={item.name}
+                        initial={{
+                          opacity: 0,
+                          x: -14,
+                        }}
+                        animate={{
+                          opacity: 1,
+                          x: 0,
+                        }}
+                        transition={{
+                          delay:
+                            0.04 +
+                            index *
+                              0.035,
+                        }}
+                      >
+                        <Link
+                          to={getMenuPath(item)}
+                          onClick={(event) => {
+                            if (item.id) {
+                              event.preventDefault();
+                            }
+
+                            handleNavigation(item);
+                          }}
                           className="
-                            h-1.5
-                            w-1.5
-                            rounded-full
-                            bg-[#D4AF37]/30
+                            group
+                            flex
+                            min-h-14
+                            items-center
+                            justify-between
+                            gap-4
+                            py-3
+                            text-[15px]
+                            font-medium
+                            uppercase
+                            tracking-[0.08em]
+                            text-white/80
                             transition
-                            group-hover:scale-125
-                            group-hover:bg-[#D4AF37]
+                            duration-300
+                            hover:pl-1
+                            hover:text-[#D4AF37]
                           "
-                        />
-                      </Link>
-                    </motion.div>
-                  ))}
+                        >
+                          <span className="flex items-center gap-2">
+                            {item.name ===
+                              "Gold Insights" && (
+                              <BookOpen
+                                size={16}
+                                className="text-[#D4AF37]"
+                              />
+                            )}
+
+                            {item.name}
+                          </span>
+
+                          <span
+                            className="
+                              h-1.5
+                              w-1.5
+                              rounded-full
+                              bg-[#D4AF37]/30
+                              transition
+                              group-hover:scale-125
+                              group-hover:bg-[#D4AF37]
+                            "
+                          />
+                        </Link>
+                      </motion.div>
+                    )
+                  )}
                 </div>
 
-                {/* PREMIUM QUICK ACTIONS */}
+                {/* =================================================
+                    QUICK ACTIONS
+                ================================================= */}
+
                 <Link
                   to="/sell-gold"
-                  onClick={() => setOpen(false)}
+                  onClick={() =>
+                    setOpen(false)
+                  }
                   className="
                     mt-5
                     flex
@@ -762,7 +1010,9 @@ const navigate = useNavigate();
 
                 <Link
                   to="/appraisal"
-                  onClick={() => setOpen(false)}
+                  onClick={() =>
+                    setOpen(false)
+                  }
                   className="
                     mt-3
                     flex
@@ -791,7 +1041,9 @@ const navigate = useNavigate();
 
                 <Link
                   to="/zakat-calculator"
-                  onClick={() => setOpen(false)}
+                  onClick={() =>
+                    setOpen(false)
+                  }
                   className="
                     mt-3
                     flex
@@ -816,16 +1068,59 @@ const navigate = useNavigate();
                 >
                   <span className="flex items-center gap-2">
                     <Calculator size={17} />
+
                     Zakat Calculator
                   </span>
 
                   <span>→</span>
                 </Link>
 
+                {/* GOLD INSIGHTS */}
+
+                <Link
+                  to="/gold-insights"
+                  onClick={() =>
+                    setOpen(false)
+                  }
+                  className="
+                    mt-3
+                    flex
+                    min-h-14
+                    items-center
+                    justify-between
+                    gap-4
+                    rounded-xl
+                    border
+                    border-[#D4AF37]/35
+                    bg-[#D4AF37]/[0.04]
+                    px-5
+                    text-sm
+                    font-semibold
+                    uppercase
+                    tracking-[0.08em]
+                    text-[#D4AF37]
+                    transition
+                    hover:border-[#D4AF37]/70
+                    hover:bg-[#D4AF37]/10
+                  "
+                >
+                  <span className="flex items-center gap-2">
+                    <BookOpen size={17} />
+
+                    Gold Insights
+                  </span>
+
+                  <span>→</span>
+                </Link>
+
+                {/* ACCOUNT + CART */}
+
                 <div className="mt-5 grid grid-cols-2 gap-3">
                   <Link
                     to="/account"
-                    onClick={() => setOpen(false)}
+                    onClick={() =>
+                      setOpen(false)
+                    }
                     className="
                       flex
                       min-h-13
@@ -845,13 +1140,19 @@ const navigate = useNavigate();
                       hover:text-[#D4AF37]
                     "
                   >
-                    <UserRound size={17} aria-hidden="true" />
+                    <UserRound
+                      size={17}
+                      aria-hidden="true"
+                    />
+
                     Account
                   </Link>
 
                   <Link
                     to="/cart"
-                    onClick={() => setOpen(false)}
+                    onClick={() =>
+                      setOpen(false)
+                    }
                     className="
                       relative
                       flex
@@ -872,7 +1173,11 @@ const navigate = useNavigate();
                       hover:text-[#D4AF37]
                     "
                   >
-                    <ShoppingCart size={17} aria-hidden="true" />
+                    <ShoppingCart
+                      size={17}
+                      aria-hidden="true"
+                    />
+
                     Cart
 
                     {totalItems > 0 && (
@@ -893,11 +1198,15 @@ const navigate = useNavigate();
                           text-black
                         "
                       >
-                        {totalItems > 99 ? "99+" : totalItems}
+                        {totalItems > 99
+                          ? "99+"
+                          : totalItems}
                       </span>
                     )}
                   </Link>
                 </div>
+
+                {/* WHATSAPP */}
 
                 <a
                   href="https://wa.me/923352484936"
@@ -924,9 +1233,15 @@ const navigate = useNavigate();
                     active:scale-[0.99]
                   "
                 >
-                  <MessageCircle size={19} aria-hidden="true" />
+                  <MessageCircle
+                    size={19}
+                    aria-hidden="true"
+                  />
+
                   WhatsApp Consultation
                 </a>
+
+                {/* BRAND */}
 
                 <div className="mt-6 border-t border-white/5 pt-5 text-center">
                   <p className="font-serif text-lg text-white/75">

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 import {
   ArrowUp,
   Clock,
@@ -8,15 +9,58 @@ import {
   Phone,
 } from "lucide-react";
 
+import { Link } from "react-router-dom";
+
+/* =========================================================
+   QUICK LINKS
+========================================================= */
+
 const quickLinks = [
-  { name: "Home", href: "#home" },
-  { name: "Collections", href: "#collections" },
-  { name: "Gold Rates", href: "#rates" },
-  { name: "About Us", href: "#about" },
-  { name: "Services", href: "#services" },
-  { name: "Gallery", href: "#gallery" },
-  { name: "Contact", href: "#contact" },
+  {
+    name: "Home",
+    to: "/#home",
+  },
+  {
+    name: "Collections",
+    to: "/#collections",
+  },
+  {
+    name: "Gold Rates",
+    to: "/#rates",
+  },
+  {
+    name: "Gold Insights",
+    to: "/gold-insights",
+  },
+  {
+    name: "Sell Gold",
+    to: "/sell-gold",
+  },
+  {
+    name: "Zakat Calculator",
+    to: "/zakat-calculator",
+  },
+  {
+    name: "About Us",
+    to: "/#about",
+  },
+  {
+    name: "Services",
+    to: "/#services",
+  },
+  {
+    name: "Gallery",
+    to: "/#gallery",
+  },
+  {
+    name: "Contact",
+    to: "/#contact",
+  },
 ];
+
+/* =========================================================
+   COLLECTIONS
+========================================================= */
 
 const collections = [
   "Premium Gold Jewellery",
@@ -26,24 +70,46 @@ const collections = [
   "Custom Jewellery",
 ];
 
+/* =========================================================
+   FOOTER
+========================================================= */
+
 function Footer() {
-  const [showScrollButton, setShowScrollButton] = useState(false);
+  const [showScrollButton, setShowScrollButton] =
+    useState(false);
+
+  /* =======================================================
+     SHOW / HIDE SCROLL BUTTON
+  ======================================================= */
 
   useEffect(() => {
     const handleScroll = () => {
-      setShowScrollButton(window.scrollY > 500);
+      setShowScrollButton(
+        window.scrollY > 500
+      );
     };
 
     handleScroll();
 
-    window.addEventListener("scroll", handleScroll, {
-      passive: true,
-    });
+    window.addEventListener(
+      "scroll",
+      handleScroll,
+      {
+        passive: true,
+      }
+    );
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener(
+        "scroll",
+        handleScroll
+      );
     };
   }, []);
+
+  /* =======================================================
+     SCROLL TO TOP
+  ======================================================= */
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -53,19 +119,38 @@ function Footer() {
   };
 
   return (
-    <footer className="relative isolate overflow-hidden bg-black">
-      {/* Background Image */}
+    <footer
+      className="
+        relative
+        isolate
+        overflow-hidden
+        bg-black
+      "
+    >
+      {/* ===================================================
+          BACKGROUND IMAGE
+      =================================================== */}
+
       <div className="absolute inset-0 -z-30">
         <img
           src="/images/luxury/footer/footer-background.webp"
           alt=""
           loading="lazy"
           decoding="async"
-          className="h-full w-full object-cover object-center opacity-15"
+          className="
+            h-full
+            w-full
+            object-cover
+            object-center
+            opacity-15
+          "
         />
       </div>
 
-      {/* Dark Overlay */}
+      {/* ===================================================
+          DARK OVERLAYS
+      =================================================== */}
+
       <div className="absolute inset-0 -z-20 bg-black/90" />
 
       <div
@@ -80,7 +165,10 @@ function Footer() {
         "
       />
 
-      {/* Gold Glow */}
+      {/* ===================================================
+          GOLD GLOW
+      =================================================== */}
+
       <div
         className="
           pointer-events-none
@@ -97,8 +185,18 @@ function Footer() {
         "
       />
 
-      {/* Animated Gold Line */}
-      <div className="relative h-px overflow-hidden bg-[#D4AF37]/15">
+      {/* ===================================================
+          ANIMATED GOLD LINE
+      =================================================== */}
+
+      <div
+        className="
+          relative
+          h-px
+          overflow-hidden
+          bg-[#D4AF37]/15
+        "
+      >
         <div
           className="
             absolute
@@ -114,13 +212,37 @@ function Footer() {
         />
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:px-10 lg:py-24">
-        {/* Main Footer Grid */}
-        <div className="grid gap-14 md:grid-cols-2 lg:grid-cols-4">
-          {/* Brand */}
+      {/* ===================================================
+          MAIN FOOTER
+      =================================================== */}
+
+      <div
+        className="
+          relative
+          mx-auto
+          max-w-7xl
+          px-5
+          py-20
+          sm:px-8
+          lg:px-10
+          lg:py-24
+        "
+      >
+        <div
+          className="
+            grid
+            gap-14
+            md:grid-cols-2
+            lg:grid-cols-4
+          "
+        >
+          {/* =================================================
+              BRAND
+          ================================================= */}
+
           <div className="lg:pr-6">
-            <a
-              href="#home"
+            <Link
+              to="/#home"
               aria-label="Citizen Jewellers home"
               className="inline-block"
             >
@@ -131,19 +253,42 @@ function Footer() {
                 height={110}
                 loading="lazy"
                 decoding="async"
-                className="h-20 w-auto max-w-[230px] object-contain"
+                className="
+                  h-20
+                  w-auto
+                  max-w-[230px]
+                  object-contain
+                "
               />
-            </a>
+            </Link>
 
-            <p className="mt-6 max-w-sm text-sm leading-7 text-white/50">
-              Premium gold, diamond and gemstone jewellery shaped by
-              heritage, trusted craftsmanship and timeless elegance since
+            <p
+              className="
+                mt-6
+                max-w-sm
+                text-sm
+                leading-7
+                text-white/50
+              "
+            >
+              Premium gold, diamond and gemstone
+              jewellery shaped by heritage, trusted
+              craftsmanship and timeless elegance since
               1963.
             </p>
 
-            {/* Social Icons */}
-            <div className="mt-8 flex flex-wrap gap-3">
-              {/* Instagram */}
+            {/* SOCIAL ICONS */}
+
+            <div
+              className="
+                mt-8
+                flex
+                flex-wrap
+                gap-3
+              "
+            >
+              {/* INSTAGRAM */}
+
               <a
                 href="https://www.instagram.com/citizenjewellers"
                 target="_blank"
@@ -176,8 +321,20 @@ function Footer() {
                   strokeLinejoin="round"
                   aria-hidden="true"
                 >
-                  <rect x="3" y="3" width="18" height="18" rx="5" />
-                  <circle cx="12" cy="12" r="4" />
+                  <rect
+                    x="3"
+                    y="3"
+                    width="18"
+                    height="18"
+                    rx="5"
+                  />
+
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="4"
+                  />
+
                   <circle
                     cx="17.5"
                     cy="6.5"
@@ -188,40 +345,42 @@ function Footer() {
                 </svg>
               </a>
 
-             {/* Facebook */}
-<a
-  href="https://www.facebook.com/citizenjewellers/"
-  target="_blank"
-  rel="noopener noreferrer"
-  aria-label="Citizen Jewellers Facebook"
-  className="
-    flex
-    h-11
-    w-11
-    items-center
-    justify-center
-    rounded-full
-    border
-    border-[#D4AF37]/30
-    text-[#D4AF37]
-    transition
-    duration-300
-    hover:-translate-y-1
-    hover:bg-[#D4AF37]
-    hover:text-black
-  "
->
-  <svg
-    viewBox="0 0 24 24"
-    className="h-5 w-5"
-    fill="currentColor"
-    aria-hidden="true"
-  >
-    <path d="M13.6 21v-8h2.8l.4-3h-3.2V8.1c0-.9.3-1.5 1.6-1.5H17V3.9c-.3 0-1.4-.1-2.6-.1-2.6 0-4.4 1.6-4.4 4.6V10H7v3h3v8h3.6Z" />
-  </svg>
-</a>
+              {/* FACEBOOK */}
 
-              {/* WhatsApp */}
+              <a
+                href="https://www.facebook.com/citizenjewellers/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Citizen Jewellers Facebook"
+                className="
+                  flex
+                  h-11
+                  w-11
+                  items-center
+                  justify-center
+                  rounded-full
+                  border
+                  border-[#D4AF37]/30
+                  text-[#D4AF37]
+                  transition
+                  duration-300
+                  hover:-translate-y-1
+                  hover:bg-[#D4AF37]
+                  hover:text-black
+                "
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  className="h-5 w-5"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path d="M13.6 21v-8h2.8l.4-3h-3.2V8.1c0-.9.3-1.5 1.6-1.5H17V3.9c-.3 0-1.4-.1-2.6-.1-2.6 0-4.4 1.6-4.4 4.6V10H7v3h3v8h3.6Z" />
+                </svg>
+              </a>
+
+              {/* WHATSAPP */}
+
               <a
                 href="https://wa.me/923352484936"
                 target="_blank"
@@ -244,20 +403,34 @@ function Footer() {
                   hover:text-black
                 "
               >
-                <MessageCircle size={19} aria-hidden="true" />
+                <MessageCircle
+                  size={19}
+                  aria-hidden="true"
+                />
               </a>
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* =================================================
+              QUICK LINKS
+          ================================================= */}
+
           <div>
-            <h3 className="font-serif text-2xl text-white">Quick Links</h3>
+            <h3
+              className="
+                font-serif
+                text-2xl
+                text-white
+              "
+            >
+              Quick Links
+            </h3>
 
             <div className="mt-7 space-y-4">
               {quickLinks.map((link) => (
-                <a
+                <Link
                   key={link.name}
-                  href={link.href}
+                  to={link.to}
                   className="
                     group
                     flex
@@ -285,53 +458,155 @@ function Footer() {
                   />
 
                   {link.name}
-                </a>
+                </Link>
               ))}
             </div>
           </div>
 
-          {/* Collections */}
+          {/* =================================================
+              COLLECTIONS
+          ================================================= */}
+
           <div>
-            <h3 className="font-serif text-2xl text-white">Collections</h3>
+            <h3
+              className="
+                font-serif
+                text-2xl
+                text-white
+              "
+            >
+              Collections
+            </h3>
 
             <div className="mt-7 space-y-4">
-              {collections.map((item) => (
-                <a
-                  key={item}
-                  href="#collections"
-                  className="
-                    block
-                    text-sm
-                    leading-6
-                    text-white/50
-                    transition
-                    duration-300
-                    hover:text-[#D4AF37]
-                  "
-                >
-                  {item}
-                </a>
-              ))}
+              {collections.map(
+                (item) => (
+                  <Link
+                    key={item}
+                    to="/#collections"
+                    className="
+                      block
+                      text-sm
+                      leading-6
+                      text-white/50
+                      transition
+                      duration-300
+                      hover:text-[#D4AF37]
+                    "
+                  >
+                    {item}
+                  </Link>
+                )
+              )}
+            </div>
+
+            {/* GOLD INSIGHTS FEATURE */}
+
+            <div
+              className="
+                mt-8
+                rounded-2xl
+                border
+                border-[#D4AF37]/18
+                bg-[#D4AF37]/[0.035]
+                p-5
+              "
+            >
+              <p
+                className="
+                  text-[10px]
+                  font-semibold
+                  uppercase
+                  tracking-[0.25em]
+                  text-[#D4AF37]
+                "
+              >
+                Knowledge Hub
+              </p>
+
+              <p
+                className="
+                  mt-3
+                  font-serif
+                  text-xl
+                  text-white
+                "
+              >
+                Gold Insights
+              </p>
+
+              <p
+                className="
+                  mt-3
+                  text-xs
+                  leading-6
+                  text-white/40
+                "
+              >
+                Learn about gold rates, purity,
+                jewellery buying and market concepts.
+              </p>
+
+              <Link
+                to="/gold-insights"
+                className="
+                  mt-4
+                  inline-flex
+                  text-sm
+                  font-semibold
+                  text-[#D4AF37]
+                  transition
+                  hover:text-white
+                "
+              >
+                Explore Guides →
+              </Link>
             </div>
           </div>
 
-          {/* Contact */}
+          {/* =================================================
+              CONTACT
+          ================================================= */}
+
           <div>
-            <h3 className="font-serif text-2xl text-white">Visit & Contact</h3>
+            <h3
+              className="
+                font-serif
+                text-2xl
+                text-white
+              "
+            >
+              Visit & Contact
+            </h3>
 
             <div className="mt-7 space-y-6">
+              {/* ADDRESS */}
+
               <div className="flex items-start gap-4">
                 <MapPin
                   size={20}
-                  className="mt-1 shrink-0 text-[#D4AF37]"
+                  className="
+                    mt-1
+                    shrink-0
+                    text-[#D4AF37]
+                  "
                   aria-hidden="true"
                 />
 
-                <p className="text-sm leading-7 text-white/50">
-                  Citizen Jewellers, Lakhani Tower, Main Zaibunissa Street,
-                  Saddar, Karachi
+                <p
+                  className="
+                    text-sm
+                    leading-7
+                    text-white/50
+                  "
+                >
+                  Citizen Jewellers, Lakhani Tower,
+                  Main Zaibunissa Street, Saddar,
+                  Karachi
                 </p>
               </div>
+
+              {/* PHONE */}
 
               <a
                 href="tel:+923352484936"
@@ -347,28 +622,52 @@ function Footer() {
               >
                 <Phone
                   size={20}
-                  className="shrink-0 text-[#D4AF37]"
+                  className="
+                    shrink-0
+                    text-[#D4AF37]
+                  "
                   aria-hidden="true"
                 />
 
                 0335 2484936
               </a>
 
+              {/* HOURS */}
+
               <div className="flex items-start gap-4">
                 <Clock
                   size={20}
-                  className="mt-1 shrink-0 text-[#D4AF37]"
+                  className="
+                    mt-1
+                    shrink-0
+                    text-[#D4AF37]
+                  "
                   aria-hidden="true"
                 />
 
-                <p className="text-sm leading-7 text-white/50">
+                <p
+                  className="
+                    text-sm
+                    leading-7
+                    text-white/50
+                  "
+                >
                   Monday – Saturday
                   <br />
                   01:00 PM – 09:00 PM
                 </p>
               </div>
 
-              <div className="flex flex-col gap-3 pt-1">
+              {/* CTA BUTTONS */}
+
+              <div
+                className="
+                  flex
+                  flex-col
+                  gap-3
+                  pt-1
+                "
+              >
                 <a
                   href="https://wa.me/923352484936"
                   target="_blank"
@@ -392,7 +691,11 @@ function Footer() {
                     hover:bg-[#e5c65c]
                   "
                 >
-                  <MessageCircle size={18} aria-hidden="true" />
+                  <MessageCircle
+                    size={18}
+                    aria-hidden="true"
+                  />
+
                   WhatsApp Consultation
                 </a>
 
@@ -421,7 +724,11 @@ function Footer() {
                     hover:text-black
                   "
                 >
-                  <Navigation size={18} aria-hidden="true" />
+                  <Navigation
+                    size={18}
+                    aria-hidden="true"
+                  />
+
                   Open in Maps
                 </a>
               </div>
@@ -429,7 +736,10 @@ function Footer() {
           </div>
         </div>
 
-        {/* Newsletter / CTA */}
+        {/* ===================================================
+            CTA SECTION
+        =================================================== */}
+
         <div
           className="
             mt-16
@@ -441,9 +751,11 @@ function Footer() {
             bg-white/[0.03]
             p-7
             backdrop-blur-xl
+
+            sm:p-8
+
             md:grid-cols-[1fr_auto]
             md:items-center
-            sm:p-8
           "
         >
           <div>
@@ -458,13 +770,31 @@ function Footer() {
               Citizen Jewellers
             </p>
 
-            <h3 className="mt-3 font-serif text-2xl text-white sm:text-3xl">
-              Looking for the Latest Jewellery and Gold Rate Guidance?
+            <h3
+              className="
+                mt-3
+                font-serif
+                text-2xl
+                text-white
+                sm:text-3xl
+              "
+            >
+              Looking for the Latest Jewellery and Gold
+              Rate Guidance?
             </h3>
 
-            <p className="mt-3 max-w-3xl text-sm leading-7 text-white/45">
-              Connect with our team for current rates, collection availability
-              and personalised jewellery assistance.
+            <p
+              className="
+                mt-3
+                max-w-3xl
+                text-sm
+                leading-7
+                text-white/45
+              "
+            >
+              Connect with our team for current rates,
+              collection availability and personalised
+              jewellery assistance.
             </p>
           </div>
 
@@ -492,12 +822,19 @@ function Footer() {
               hover:bg-[#e5c65c]
             "
           >
-            <MessageCircle size={18} aria-hidden="true" />
+            <MessageCircle
+              size={18}
+              aria-hidden="true"
+            />
+
             Speak With an Expert
           </a>
         </div>
 
-        {/* Bottom Footer */}
+        {/* ===================================================
+            BOTTOM FOOTER
+        =================================================== */}
+
         <div
           className="
             mt-14
@@ -513,19 +850,27 @@ function Footer() {
             text-xs
             leading-6
             text-white/35
+
             md:flex-row
             md:text-left
           "
         >
           <p>
-            © 2026 Citizen Jewellers by Lakhani Sons. All rights reserved.
+            © 2026 Citizen Jewellers by Lakhani Sons.
+            All rights reserved.
           </p>
 
-          <p>Heritage, trust and craftsmanship since 1963.</p>
+          <p>
+            Heritage, trust and craftsmanship since
+            1963.
+          </p>
         </div>
       </div>
 
-      {/* Scroll to Top Button */}
+      {/* ===================================================
+          SCROLL TO TOP
+      =================================================== */}
+
       {showScrollButton && (
         <button
           type="button"
@@ -555,11 +900,17 @@ function Footer() {
             hover:text-black
           "
         >
-          <ArrowUp size={20} aria-hidden="true" />
+          <ArrowUp
+            size={20}
+            aria-hidden="true"
+          />
         </button>
       )}
 
-      {/* Local Animation */}
+      {/* ===================================================
+          LOCAL ANIMATION
+      =================================================== */}
+
       <style>{`
         @keyframes footerShine {
           from {
