@@ -700,7 +700,7 @@ function Footer() {
                 </a>
 
                 <a
-                  href="https://www.google.com/maps/search/?api=1&query=Lakhani+Tower+Zaibunissa+Street+Saddar+Karachi"
+                  href="https://maps.app.goo.gl/JxmTnuFsymUi5eYNA"
                   target="_blank"
                   rel="noreferrer"
                   className="
