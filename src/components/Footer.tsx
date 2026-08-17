@@ -700,7 +700,7 @@ function Footer() {
                 </a>
 
                 <a
-                 href="https://www.google.com/maps/search/?api=1&query=24.8588913%2C67.028396"
+                href="https://maps.app.goo.gl/XQyyqSZvbq26trmx9"
                   target="_blank"
                   rel="noreferrer"
                   className="
