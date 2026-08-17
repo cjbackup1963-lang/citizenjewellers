@@ -1342,7 +1342,7 @@ function Contact() {
           </div>
 
           <a
-            href="https://maps.app.goo.gl/JxmTnuFsymUi5eYNA"
+            href="https://www.google.com/maps/place/Citizen+Jewellers+by+lakhany+%26+Sons/data=!4m7!3m6!1s0x3eb33e7226d7ea71:0xcd85ccd6a62b3b71!8m2!3d24.8588913!4d67.028396!16s%2Fg%2F11xc10cx5"
             target="_blank"
             rel="noreferrer"
             className="
