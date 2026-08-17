@@ -14,7 +14,7 @@ import {
 } from "react-router-dom";
 
 /* =========================================================
-   CRITICAL / FIRST LOAD COMPONENTS
+   CRITICAL / NAVIGATION COMPONENTS
    ========================================================= */
 
 import Navbar from "./components/Navbar";
@@ -23,6 +23,21 @@ import GoldTicker from "./components/GoldTicker";
 import Hero from "./components/Hero";
 import FeatureStrip from "./components/FeatureStrip";
 import Collections from "./components/Collections";
+
+/*
+|--------------------------------------------------------------------------
+| IMPORTANT
+|--------------------------------------------------------------------------
+| These sections have navbar hash links.
+| They MUST always exist in the DOM.
+|--------------------------------------------------------------------------
+*/
+
+import LiveRates from "./components/LiveRates";
+import About from "./components/About";
+import Services from "./components/Services";
+import Gallery from "./components/Gallery";
+import Contact from "./components/Contact";
 
 import Footer from "./components/Footer";
 import FloatingWhatsApp from "./components/FloatingWhatsApp";
@@ -33,10 +48,6 @@ import FloatingWhatsApp from "./components/FloatingWhatsApp";
 
 const FeaturedJewellery = lazy(
   () => import("./components/FeaturedJewellery")
-);
-
-const LiveRates = lazy(
-  () => import("./components/LiveRates")
 );
 
 const GoldServices = lazy(
@@ -51,28 +62,12 @@ const ProductCatalog = lazy(
   () => import("./components/ProductCatalog")
 );
 
-const About = lazy(
-  () => import("./components/About")
-);
-
-const Services = lazy(
-  () => import("./components/Services")
-);
-
-const Gallery = lazy(
-  () => import("./components/Gallery")
-);
-
 const Testimonials = lazy(
   () => import("./components/Testimonials")
 );
 
 const FAQ = lazy(
   () => import("./components/FAQ")
-);
-
-const Contact = lazy(
-  () => import("./components/Contact")
 );
 
 /* =========================================================
@@ -104,16 +99,13 @@ const ZakatCalculator = lazy(
 );
 
 /* =========================================================
-   SECTION LOADING PLACEHOLDER
+   SECTION FALLBACK
    ========================================================= */
 
 function SectionFallback() {
   return (
     <div
-      className="
-        min-h-[220px]
-        bg-[#050505]
-      "
+      className="min-h-[220px] bg-[#050505]"
       aria-hidden="true"
     />
   );
@@ -145,18 +137,11 @@ function LazySection({
       return;
     }
 
-    /*
-    ---------------------------------------------------------
-    Load the section slightly BEFORE it becomes visible.
-    500px gives enough time for the chunk to download.
-    ---------------------------------------------------------
-    */
-
     const observer = new IntersectionObserver(
       (entries) => {
-        const firstEntry = entries[0];
+        const entry = entries[0];
 
-        if (firstEntry?.isIntersecting) {
+        if (entry?.isIntersecting) {
           setShouldRender(true);
           observer.disconnect();
         }
@@ -199,7 +184,7 @@ function LazySection({
 function HomePage() {
   return (
     <>
-      {/* CRITICAL FIRST VIEW */}
+      {/* FIRST VIEW */}
 
       <Hero />
 
@@ -207,15 +192,18 @@ function HomePage() {
 
       <Collections />
 
-      {/* LAZY SECTIONS */}
+      {/* OPTIONAL LAZY CONTENT */}
 
       <LazySection minHeight={650}>
         <FeaturedJewellery />
       </LazySection>
 
-      <LazySection minHeight={520}>
-        <LiveRates />
-      </LazySection>
+      {/* ===================================================
+          HASH NAVIGATION TARGET
+          MUST NOT BE LazySection
+      =================================================== */}
+
+      <LiveRates />
 
       <LazySection minHeight={500}>
         <GoldServices />
@@ -229,17 +217,16 @@ function HomePage() {
         <ProductCatalog />
       </LazySection>
 
-      <LazySection minHeight={600}>
-        <About />
-      </LazySection>
+      {/* ===================================================
+          HASH NAVIGATION TARGETS
+          MUST ALWAYS EXIST
+      =================================================== */}
 
-      <LazySection minHeight={600}>
-        <Services />
-      </LazySection>
+      <About />
 
-      <LazySection minHeight={700}>
-        <Gallery />
-      </LazySection>
+      <Services />
+
+      <Gallery />
 
       <LazySection minHeight={550}>
         <Testimonials />
@@ -249,54 +236,71 @@ function HomePage() {
         <FAQ />
       </LazySection>
 
-      <LazySection minHeight={600}>
-        <Contact />
-      </LazySection>
+      <Contact />
     </>
   );
 }
 
 /* =========================================================
-   ROUTE EFFECTS
+   ROUTE / HASH EFFECTS
    ========================================================= */
 
 function RouteEffects() {
   const location = useLocation();
 
   useEffect(() => {
-    /*
-    ---------------------------------------------------------
-    Anchor navigation
-    ---------------------------------------------------------
-    */
-
     if (location.hash) {
-      window.setTimeout(() => {
-        const target =
-          document.querySelector(
-            location.hash
-          );
+      const id =
+        location.hash.replace("#", "");
 
-        target?.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      }, 100);
+      /*
+      ---------------------------------------------------------
+      Retry briefly because React route rendering can take
+      a moment when coming from another route.
+      ---------------------------------------------------------
+      */
+
+      let attempts = 0;
+
+      const scrollToTarget = () => {
+        const target =
+          document.getElementById(id);
+
+        if (target) {
+          target.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+
+          return;
+        }
+
+        if (attempts < 15) {
+          attempts += 1;
+
+          window.setTimeout(
+            scrollToTarget,
+            100
+          );
+        }
+      };
+
+      window.setTimeout(
+        scrollToTarget,
+        50
+      );
 
       return;
     }
-
-    /*
-    ---------------------------------------------------------
-    Normal route navigation
-    ---------------------------------------------------------
-    */
 
     window.scrollTo({
       top: 0,
       behavior: "instant",
     });
-  }, [location]);
+  }, [
+    location.pathname,
+    location.hash,
+  ]);
 
   return null;
 }
@@ -420,7 +424,7 @@ function App() {
             }
           />
 
-          {/* JEWELLERY APPRAISAL */}
+          {/* APPRAISAL */}
 
           <Route
             path="/appraisal"

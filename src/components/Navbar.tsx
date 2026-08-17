@@ -9,7 +9,7 @@ import {
   UserRound,
   X,
 } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { useCart } from "../context/CartContext";
 
@@ -65,7 +65,7 @@ const menu: MenuItem[] = [
 function Navbar() {
   const { totalItems } = useCart();
   const location = useLocation();
-
+const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -100,22 +100,49 @@ function Navbar() {
   }, [open]);
 
   const handleNavigation = (item: MenuItem) => {
-    setOpen(false);
-    setSearchOpen(false);
+  setOpen(false);
+  setSearchOpen(false);
 
-    if (!item.id) {
-      return;
-    }
+  // Normal pages
+  if (item.path) {
+    navigate(item.path);
+    return;
+  }
 
-    if (location.pathname === "/") {
-      window.setTimeout(() => {
-        document.getElementById(item.id!)?.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      }, 80);
+  // Homepage sections
+  if (!item.id) {
+    return;
+  }
+
+  const scrollToSection = () => {
+    const section = document.getElementById(item.id!);
+
+    if (section) {
+      section.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
     }
   };
+
+  // Already on homepage
+  if (location.pathname === "/") {
+    window.history.replaceState(null, "", `/#${item.id}`);
+
+    window.setTimeout(() => {
+      scrollToSection();
+    }, 50);
+
+    return;
+  }
+
+  // Coming from Cart / Sell Gold / Appraisal etc.
+  navigate(`/#${item.id}`);
+
+  window.setTimeout(() => {
+    scrollToSection();
+  }, 250);
+};
 
   const getMenuPath = (item: MenuItem) => {
     if (item.path) {
