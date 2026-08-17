@@ -700,7 +700,7 @@ function Footer() {
                 </a>
 
                 <a
-                 href="https://www.google.com/maps/search/?api=1&query=Citizen%20Jewellers%20by%20lakhany%20%26%20Sons&query_place_id=ChIJcerXJnI-sz4RcTsrptbMhc0"
+                 href="https://www.google.com/maps/search/?api=1&query=24.8588913%2C67.028396"
                   target="_blank"
                   rel="noreferrer"
                   className="
