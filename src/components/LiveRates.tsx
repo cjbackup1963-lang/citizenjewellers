@@ -32,7 +32,7 @@ function LiveRates() {
 
       setLoadError(false);
 
-      const result = await getGoldRates();
+      const result = await getGoldRates(manualRefresh);
 
       setRates(result);
     } catch {
@@ -69,7 +69,7 @@ function LiveRates() {
 
     const interval = window.setInterval(() => {
       void load();
-    }, 5 * 60 * 1000);
+    }, 15 * 60 * 1000);
 
     return () => {
       active = false;

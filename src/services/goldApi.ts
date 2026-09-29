@@ -56,7 +56,7 @@ const REQUEST_TIMEOUT_MS = 10_000;
 |
 */
 
-const CACHE_DURATION_MS = 8 * 60 * 60 * 1000;
+const CACHE_DURATION_MS = 15 * 60 * 1000;
 
 const CACHE_KEY = "citizen_gold_rates_v1";
 
@@ -239,18 +239,22 @@ function saveRatesToCache(rate: GoldRate) {
 |--------------------------------------------------------------------------
 */
 
-export async function getGoldRates(): Promise<GoldRate> {
+export async function getGoldRates(
+  forceRefresh = false
+): Promise<GoldRate> {
   /*
   |--------------------------------------------------------------------------
   | STEP 1 — Check cache first
   |--------------------------------------------------------------------------
   */
 
+ if (!forceRefresh) {
   const cachedRates = getCachedRates();
 
   if (cachedRates) {
     return cachedRates;
   }
+}
 
   /*
   |--------------------------------------------------------------------------
